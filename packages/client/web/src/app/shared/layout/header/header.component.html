@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+  <div class="container">
+    <ion-button href="#/">IThub {{userInfo}}</ion-button>
+    
+    <!-- <a class="navbar-brand" href="#/">IThub </a> -->
+    <ul class="nav navbar-nav pull-xs-right">
+      <li class="nav-item">
+        <ion-button href class="nav-link" routerLink="/">Home</ion-button>
+      </li>
+      <li class="nav-item">
+        <ion-button  class="nav-link" routerLink="/editor" routerLinkActive="active">
+          <i class="ion-compose"></i>&nbsp;New Article
+        </ion-button >
+      </li>
+      <li class="nav-item">
+        <ion-button  class="nav-link" routerLink="/settings" routerLinkActive="active">
+          <i class="ion-gear-a"></i>&nbsp;Settings
+        </ion-button >
+      </li>
+      <li class="nav-item" *ngIf="!userInfo">
+        <ion-button  class="nav-link" routerLink="/login" routerLinkActive="active">Sign in</ion-button >
+      </li>
+      <li class="nav-item" *ngIf="!userInfo">
+        <ion-button  class="nav-link" routerLink="/register" routerLinkActive="active">Sign up</ion-button >
+      </li>
+      <li class="nav-item" *ngIf="userInfo">
+        <ion-button  class="nav-link ng-binding" routerLink="/profile/{{userInfo?.username}}" routerLinkActive="active">
+          <img src="{{userInfo?.image}}" class="user-pic">
+          {{userInfo && userInfo.username}}
+        </ion-button >
+      </li>
+    </ul>
+  </div>
+</ion-toolbar>
+</ion-header>
+
+
+
+   
