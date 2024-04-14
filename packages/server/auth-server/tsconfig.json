@@ -12,8 +12,6 @@
 //   ]
 // }
 {
-// "include": ["../../../libs/repositories/src/lib/auth/user.repository.ts"],
-
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,

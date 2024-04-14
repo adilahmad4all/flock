@@ -1,7 +1,20 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
+    // "allowJs": true,
+    // "allowSyntheticDefaultImports": true,
+    // "esModuleInterop": true,
+    // "inlineSourceMap": false,
+    // "listEmittedFiles": false,
+    // "listFiles": false,
+    // "noFallthroughCasesInSwitch": true,
+    // "pretty": true,
+    // "resolveJsonModule": true,
+    // // "strict": true,
+    // "traceResolution": false,
+    // "noEmit": false,
+
+    // "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -13,12 +26,10 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    // "baseUrl": ".",
     "paths": {
      
-      "repositories": ["libs/repositories/src/index.ts"],
-      "ui": ["libs/ui/src/index.ts"]
-    }
+      }
   },
   "exclude": ["node_modules", "tmp"]
 }

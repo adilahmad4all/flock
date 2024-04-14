@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-// import { mapping } from 'cassandra-driver';
-import { User } from './models/user.model';
+
+import { User, IUser } from './models/user.model';
 import { SurrealService } from '../surreal.service';
 import { create, query, select, update } from 'cirql';
 @Injectable()
@@ -9,43 +9,39 @@ export class UserRepository implements OnModuleInit {
   constructor(private surrealService: SurrealService) { }
 
   onModuleInit() {
-
     
-
   }
 
   async getUsers() {
     return this.surrealService.client.execute({ 
-      query: select().from('user')
+      query: select().from('user').with(User)
   });
 
   }
 
   async getUserByEmail(email: string) {
-    return await (await this.userMapper.find({ email })).first();
+    return this.surrealService.client.execute({ 
+      query: select().from('user').where(`email == ${email}`).with(User).limit(1)
+  });
+
   }
 
   async getUserByUsername(username: string) {
-
-
-    const res = await this.cassandraService.client.execute(`SELECT * FROM users WHERE username = '${username}' ALLOW FILTERING`);
-    if (res?.rows?.length) {
-      return true;
-    }
-
-    return false;
+    return this.surrealService.client.execute({ 
+      query: select().from('user').where(`username == ${username}`).with(User).limit(1)
+  }); 
   }
 
-  createUser(user: User) {
+  createUser(user: IUser) {
     return this.surrealService.client.execute({ 
-          query: create('user').setAll(user)
+          query: create('user').setAll(user).with(User)
       });
     // return this.userMapper.insert(user);
   }
 
-  updateUser(user: User) {
+  updateUser(user: IUser) {
     return this.surrealService.client.execute({ 
-      query: update('user').setAll(user)
+      query: update('user').setAll(user).with(User)
   });
    
   }

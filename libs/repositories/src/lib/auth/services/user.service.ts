@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { User } from '../models/user.model';
+import { User,IUser } from '../models/user.model';
 import { UserRepository } from '../user.repository';
 import * as bcrypt from 'bcrypt';
 
@@ -21,9 +21,9 @@ export class UserService {
 
   async getUserByEmail(email: string) {
     logger.log('AUTH-SERVICE: FindUser triggered')
-    const found_user = await this.userRepository.getUserByEmail(email);
+    const found_user = await this.userRepository.getUserByEmail(email)[0];
 
-    if (found_user) {
+    if (found_user ) {
       logger.log('AUTH-SERVICE - User found');
       delete found_user.password;
 
@@ -34,11 +34,11 @@ export class UserService {
     return;
   }
 
-  async create(user: User) {
+  async create(user: IUser) {
     logger.log('AUTH-SERVICE - Create User triggered');
 
-    const existing_email = await this.userRepository.getUserByEmail(user.email);
-    const existing_username = await this.userRepository.getUserByUsername(user.username);
+    const existing_email = await this.userRepository.getUserByEmail(user.email)[0];
+    const existing_username = await this.userRepository.getUserByUsername(user.username)[0];
 
     if (existing_email || existing_username) {
       logger.log('AUTH-SERVICE - Email or Username already taken');
@@ -54,7 +54,7 @@ export class UserService {
     return user;
   }
 
-  async update(user: User) {
+  async update(user: IUser) {
     logger.log('AUTH-SERVICE - Updating User');
     const currentUser = await this.getUserByEmail(user.email);
 
@@ -71,10 +71,10 @@ export class UserService {
     }
   }
 
-  async validateUser(user: User) {
+  async validateUser(user: IUser) {
     logger.log('AUTH-SERVICE - Validating User');
 
-    const found_user = await this.userRepository.getUserByEmail(user.email);
+    const found_user = await this.userRepository.getUserByEmail(user.email)[0];
     if (found_user) {
       const isPasswordOk = await bcrypt.compare(user.password, found_user.password);
 
