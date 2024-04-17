@@ -1,0 +1,7 @@
+{
+  "name": "flock",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

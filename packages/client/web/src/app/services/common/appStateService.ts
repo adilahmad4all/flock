@@ -4,9 +4,7 @@ import { AppConstants } from "../../shared/constants/app-constants";
 import { IUser } from "../../shared/model/IUser";
 import { SLSService } from "./secureLocalStorageService";
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AppStateService {
   private userTokenDataSource = new BehaviorSubject<string>(this.getUserToken());
   public userTokenData$ = this.userTokenDataSource.asObservable();

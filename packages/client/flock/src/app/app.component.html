@@ -1,0 +1,56 @@
+<ion-app>
+
+  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="false">
+    <ion-fab-button (click)="menuController.open('MainMenu')">
+      <ion-icon name="person-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="changeMenuServiceState(signalkey.Settings)">
+        <ion-icon name="settings" ></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeMenuServiceState(signalkey.Avatar)">
+        <ion-icon name="person-add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeMenuServiceState(signalkey.Profile)">
+        <ion-icon name="person-circle"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <ion-split-pane contentId="main-content">
+    
+    <ion-menu menuId="MainMenu" contentId="main-content" type="overlay" side="end">
+      <ion-content>
+        <ion-list>
+         
+          <ion-list-header>Menu</ion-list-header>
+         
+          <ion-menu-toggle autoHide="false" >
+
+            
+                @for (p of mainMenuService[mainMenuService.State()](); track p.title) {
+                  <ion-item
+                    [routerLink]="[p.link]"
+                    routerLinkActive="selected"
+                    routerDirection="root"
+                    lines="none"
+                    detail="false"
+                  >
+                    <ion-icon
+                      slot="start"
+                      name="{{p.icon}}"
+                    ></ion-icon>
+                    <ion-label>{{ p.title }}</ion-label>
+                  </ion-item>
+                } @empty {
+                  <ion-label>There are no items.</ion-label>
+                }
+             
+          
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+    
+  </ion-split-pane>
+</ion-app>

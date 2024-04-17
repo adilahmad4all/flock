@@ -14,19 +14,16 @@ import { createApollo } from './shared/apollo/createApollo';
 import { SettingsModule } from './modules/settings/settings.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { ArticleModule } from './modules/article/article.module';
-import { enableProdMode, importProvidersFrom } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
-import { RouteReuseStrategy, provideRouter } from '@angular/router';
-import { provideIonicAngular, IonicRouteStrategy } from '@ionic/angular/standalone';
+
+import { InMemoryCache } from '@apollo/client/core';
 
 @NgModule({
   declarations: [
     AppComponent,
-   
+    HeaderComponent,
     FooterComponent
   ],
   imports: [
-    HeaderComponent,
     AuthModule,
     SettingsModule,
     ProfileModule,
@@ -38,15 +35,19 @@ import { provideIonicAngular, IonicRouteStrategy } from '@ionic/angular/standalo
       initialNavigation: 'enabledBlocking',
       useHash: true,
     }),
+   
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular({ mode: 'ios' }),
-    provideRouter(appRoutes),
-
     {
       provide: APOLLO_OPTIONS,
-      useFactory: createApollo,
+      useFactory(httpLink: HttpLink) {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: 'https://48p1r2roz4.sse.codesandbox.io',
+          }),
+        };
+      },
       deps: [HttpLink],
     },
   ],
