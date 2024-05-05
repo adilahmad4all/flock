@@ -1,24 +1,24 @@
 import { Injectable } from "@angular/core";
-import  SecureLS from 'secure-ls'
+import SecureLS from "secure-ls";
 import { AppConstants } from "../../shared/constants/app-constants";
 
-const secureLS =  new SecureLS({
-  encodingType: 'aes',
+const secureLS = new SecureLS({
+  encodingType: "aes",
   encryptionSecret: AppConstants.SECRET_KEY,
-  isCompression: true
+  isCompression: true,
 });
-
+// SLSService
 @Injectable()
-export class SLSService {
-  static setKeyValue(key: string, value: string) {
+export  class StorageService {
+   setKeyValue(key: string, value: string) {
     secureLS.set(key, value);
   }
 
-  static getValueByKey(key: string) {
+   getValueByKey(key: string):string {
     return secureLS.get(key);
   }
 
-  static removeKey(key: string) {
+   removeKey(key: string) {
     secureLS.remove(key);
   }
 }

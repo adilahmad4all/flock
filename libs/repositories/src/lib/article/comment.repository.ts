@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { mapping } from 'cassandra-driver';
-import { CassandraService } from '@ithub/cassandra-service';
+import { CassandraService } from '../service/database.service';
 import { Comment } from './models/comment.model';
 
 @Injectable()

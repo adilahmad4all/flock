@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="signup-logo">
+    <img src="assets/img/appicon.svg" alt="Logo" />
+  </div>
+
+  <form [formGroup]="signUpForm" novalidate (submit)="signUp()">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label position="stacked" color="primary">Username</ion-label>
+        <ion-input name="username"  formControlName="username" type="text" required> </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p
+          [hidden]="signUpForm.value.username.valid || submitted == false"
+          class="ion-padding-start"
+        >
+          Username is required
+        </p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Email</ion-label>
+        <ion-input name="email"  formControlName="email" type="text" required> </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p
+          [hidden]="signUpForm.value.email.valid || submitted == false"
+          class="ion-padding-start"
+        >
+          email is required
+        </p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Password</ion-label>
+        <ion-input name="password"  formControlName="password" type="password" required> </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p
+          [hidden]="signUpForm.value.password.valid || submitted == false"
+          class="ion-padding-start"
+        >
+          Password is required
+        </p>
+      </ion-text>
+    </ion-list>
+
+   
+    <ion-row>
+      <ion-col>
+        
+          <ion-button type="submit" expand="block">Create</ion-button>
+     
+      </ion-col>
+      <ion-col>
+        <ion-button [routerLink]="['/login']" color="light" expand="block"
+          >LogIn</ion-button
+        >
+      </ion-col>
+    </ion-row>
+
+
+  </form>
+</ion-content>

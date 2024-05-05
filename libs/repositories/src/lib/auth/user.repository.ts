@@ -1,48 +1,49 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-
-import { User, IUser } from './models/user.model';
-import { SurrealService } from '../surreal.service';
-import { create, query, select, update } from 'cirql';
+import { mapping } from 'cassandra-driver';
+import { User } from './models/user.model';
+import { CassandraService } from '../service/database.service';
 @Injectable()
 export class UserRepository implements OnModuleInit {
 
-  constructor(private surrealService: SurrealService) { }
+  constructor(private cassandraService: CassandraService) { }
+
+  userMapper: mapping.ModelMapper<User>;
 
   onModuleInit() {
-    
+    const mappingOptions: mapping.MappingOptions = {
+      models: {
+        'User': {
+          tables: ['users'],
+          mappings: new mapping.UnderscoreCqlToCamelCaseMappings
+        }
+      }
+    }
+
+    this.userMapper = this.cassandraService.createMapper(mappingOptions).forModel('User');
   }
 
   async getUsers() {
-    return this.surrealService.client.execute({ 
-      query: select().from('user').with(User)
-  });
-
+    return (await this.userMapper.findAll()).toArray();
   }
 
   async getUserByEmail(email: string) {
-    return this.surrealService.client.execute({ 
-      query: select().from('user').where(`email == ${email}`).with(User).limit(1)
-  });
-
+    return await (await this.userMapper.find({ email })).first();
   }
 
   async getUserByUsername(username: string) {
-    return this.surrealService.client.execute({ 
-      query: select().from('user').where(`username == ${username}`).with(User).limit(1)
-  }); 
+    const res = await this.cassandraService.client.execute(`SELECT * FROM users WHERE username = '${username}' ALLOW FILTERING`);
+    if (res?.rows?.length) {
+      return true;
+    }
+
+    return false;
   }
 
-  createUser(user: IUser) {
-    return this.surrealService.client.execute({ 
-          query: create('user').setAll(user).with(User)
-      });
-    // return this.userMapper.insert(user);
+  createUser(user: User) {
+    return this.userMapper.insert(user);
   }
 
-  updateUser(user: IUser) {
-    return this.surrealService.client.execute({ 
-      query: update('user').setAll(user).with(User)
-  });
-   
+  updateUser(user: User) {
+    return this.userMapper.update(user);
   }
 }

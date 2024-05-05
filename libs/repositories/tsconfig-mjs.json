@@ -1,13 +1,12 @@
-
-
 {
-  // "extends": "../../tsconfig.base.json",
+ 
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2022",
     "importHelpers": false,
-    "outDir": "./dist/cjs",
+    "outDir": "./dist/mjs",
     "declaration": true,
-    "target": "es2015",
+  
+    "target": "es2022",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -32,9 +31,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
   },
-"exclude":["./src/lib/article/**/*","./src/lib/profile/**/*","node_modules", "dist"],
-
+"exclude":["node_modules", "dist"],
 "compileOnSave": false,
+
   // "references": [
   //   {
   //     "path": "./tsconfig.lib.json"

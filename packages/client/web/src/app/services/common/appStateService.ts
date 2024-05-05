@@ -1,49 +1,50 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { AppConstants } from "../../shared/constants/app-constants";
 import { IUser } from "../../shared/model/IUser";
-import { SLSService } from "./secureLocalStorageService";
+import { StorageService } from "./secureLocalStorageService";
 
 @Injectable()
 export class AppStateService {
+  storageService = inject(StorageService);
   private userTokenDataSource = new BehaviorSubject<string>(this.getUserToken());
   public userTokenData$ = this.userTokenDataSource.asObservable();
 
   private currentUserDataSource = new BehaviorSubject<IUser | undefined>(undefined);
   public currentUserData$ = this.currentUserDataSource.asObservable();
 
-  static getUserTokenStatic() {
-    return SLSService.getValueByKey(AppConstants.AUTH_TOKEN_KEY);
+   getUserTokenStatic() {
+    return this.storageService.getValueByKey(AppConstants.AUTH_TOKEN_KEY);
   }
 
-  static getCurrentUserStatic() {
-    const userInfo = SLSService.getValueByKey(AppConstants.USER_INFO_KEY);
+  public getCurrentUserStatic() {
+    const userInfo = this.storageService.getValueByKey(AppConstants.USER_INFO_KEY);
     return userInfo && JSON.parse(userInfo);
   }
 
   public setUserToken(token: string) {
-    SLSService.setKeyValue(AppConstants.AUTH_TOKEN_KEY, token);
+    this.storageService.setKeyValue(AppConstants.AUTH_TOKEN_KEY, token);
     this.userTokenDataSource.next(this.getUserToken());
   }
 
   public resetUser() {
-    SLSService.removeKey(AppConstants.AUTH_TOKEN_KEY);
-    SLSService.removeKey(AppConstants.USER_INFO_KEY);
+    this.storageService.removeKey(AppConstants.AUTH_TOKEN_KEY);
+    this.storageService.removeKey(AppConstants.USER_INFO_KEY);
     this.userTokenDataSource.next('');
     this.currentUserDataSource.next(undefined);
   }
 
   public getUserToken() {
-    return SLSService.getValueByKey(AppConstants.AUTH_TOKEN_KEY);
+    return this.storageService.getValueByKey(AppConstants.AUTH_TOKEN_KEY);
   }
 
   public getCurrentUser() {
-    const userInfo = SLSService.getValueByKey(AppConstants.USER_INFO_KEY);
+    const userInfo = this.storageService.getValueByKey(AppConstants.USER_INFO_KEY);
     this.currentUserDataSource.next(userInfo && JSON.parse(userInfo));
   }
 
   public setCurrentUser(user: IUser) {
-    SLSService.setKeyValue(AppConstants.USER_INFO_KEY, JSON.stringify(user));
-    this.currentUserDataSource.next(AppStateService.getCurrentUserStatic());
+    this.storageService.setKeyValue(AppConstants.USER_INFO_KEY, JSON.stringify(user));
+    this.currentUserDataSource.next(this.getCurrentUserStatic());
   }
 }

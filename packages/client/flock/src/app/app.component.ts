@@ -22,7 +22,8 @@ import {
   MenuController,
 } from '@ionic/angular/standalone';
 import { personAdd, personCircle, settings } from 'ionicons/icons';
-import { MainMenuService ,signalkey } from './core/services/mainmenue.service';
+import { MainMenuService ,signalkey } from './services/mainmenue.service';
+import { StorageService } from './services/common/StorageService';
 
 @Component({
   selector: 'app-root',
@@ -47,11 +48,11 @@ import { MainMenuService ,signalkey } from './core/services/mainmenue.service';
     IonFabList,
     RouterLink,
   ],
-  providers:[MainMenuService]
+  providers:[MainMenuService,StorageService]
 })
 export class AppComponent {
   menuController= inject(MenuController);
-
+  storageService= inject(StorageService);
   public mainMenuService:MainMenuService = inject(MainMenuService);
   signalkey = signalkey;
   public appPages: any[] = [

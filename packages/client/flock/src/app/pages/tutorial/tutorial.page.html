@@ -1,0 +1,47 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+    
+
+    <swiper-container [slidesPerView]="3" [loop]="true" (swiperslidechange)="onSlideChangeStart($event)" pager="false">
+      <swiper-slide> 
+        <h2 class="slide-title">
+          Welcome to
+          <b>Flock</b>
+        </h2>
+        <p>
+          The
+          <b>Social conference app</b> is a practical preview 
+          use.
+        </p>
+      </swiper-slide>
+
+      <swiper-slide>
+        <img src="assets/img/ica-slidebox-img-2.png" class="slide-image" />
+        <h2 class="slide-title">What is this?</h2>
+        <p>
+          <b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies
+          like HTML, CSS, and JavaScript.</p>
+      </swiper-slide>
+
+      <swiper-slide>
+        <img src="assets/img/ica-slidebox-img-4.png" class="slide-image" />
+        <h2 class="slide-title">Ready to Play?</h2>
+        <ion-button fill="clear" (click)="startApp()">
+          Continue
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </swiper-slide>
+    </swiper-container>
+
+   
+
+
+</ion-content>
