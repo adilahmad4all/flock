@@ -16,11 +16,11 @@ interface MenuItem {
   providedIn: 'root',
 })
 export class MainMenuService {
+  // toggle the menu fab button
   public Toggle: WritableSignal<boolean> = signal(false);
 
   [key: string]: WritableSignal<any>;
-  // public Profile: WritableSignal<Array<object>> = signal([]);
-  // public Avatar: WritableSignal<Array<object>> = signal([]);
+  // state of the menu
   public State: WritableSignal<string> = signal(signalkey.Settings);
 
   constructor() {
@@ -28,7 +28,7 @@ export class MainMenuService {
     keys.forEach((key) => {
       this[key] = signal([]);
     });
-    this.Toggle = this.Toggle;
+    // this.Toggle = this.Toggle;
 
     let SettingsArray: Array<MenuItem> = [
       { title: 'theme', function: 'theme', icon: 'settings' },

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { LOGIN, REGISTER } from '../shared/constants/queries/auth-queries';
+import { LOGIN, REGISTER } from '../shared/queries/auth-queries';
 import { URLs } from '../shared/constants/common';
 
 @Injectable()

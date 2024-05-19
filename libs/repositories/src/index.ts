@@ -27,43 +27,53 @@ export * from './lib/profile/services/follower.service';
 
 export * from './lib/profile/follower.repository';
 export * from './lib/profile/profile.repository';
+export * from './lib/service/database.service';
 
 
-import { Client, mapping, auth, DseClientOptions } from 'cassandra-driver';
-import { User } from './lib/auth/models/user.model';
+// import { Client, mapping, auth, DseClientOptions } from 'cassandra-driver';
+// import { User } from './lib/auth/models/user.model';
 
 
 
-main();
-  async function main () {
-    console.log("starting");
-    const client = new Client({
-      contactPoints: ["node-0.aws-ap-south-1.4fdb6e03bd8ae24fe1e7.clusters.scylla.cloud", "node-1.aws-ap-south-1.4fdb6e03bd8ae24fe1e7.clusters.scylla.cloud", "node-2.aws-ap-south-1.4fdb6e03bd8ae24fe1e7.clusters.scylla.cloud"],
-      keyspace: 'flock',
-      localDataCenter: 'AWS_AP_SOUTH_1',
+// main();
+//   async function main () {
+//     console.log("starting");
+//     // const client = new Client({
+//   //     contactPoints: ["node-0.aws-ap-south-1.4fdb6e03bd8ae24fe1e7.clusters.scylla.cloud", "node-1.aws-ap-south-1.4fdb6e03bd8ae24fe1e7.clusters.scylla.cloud", "node-2.aws-ap-south-1.4fdb6e03bd8ae24fe1e7.clusters.scylla.cloud"],
+//   //     keyspace: 'flock',
+//   //     localDataCenter: 'AWS_AP_SOUTH_1',
       
-      credentials: {
-        username: "scylla",
-        password: "cAdosh4XOT9qR7x"  },
-  });
+//   //     credentials: {
+//   //       username: "scylla",
+//   //       password: "cAdosh4XOT9qR7x"  },
+
+        
+//   // });
+
+//   const client = new Client({
+//     contactPoints: ['127.0.0.1'],
+//     keyspace: 'flock',
+//     localDataCenter: 'datacenter1',
+// });
   
-    const mappingOptions: mapping.MappingOptions = {
-      models: {
-        'User': {
-          tables: ['users'],
-          mappings: new mapping.UnderscoreCqlToCamelCaseMappingsws ccxs
-        }
-      }
-    }
+//     const mappingOptions: mapping.MappingOptions = {
+//       models: {
+//         'User': {
+//           tables: ['users'],
+//           mappings: new mapping.UnderscoreCqlToCamelCaseMappings
+//         }
+//       }
+//     }
     
   
-    var userMapper: mapping.ModelMapper<User> =  new mapping.Mapper(client, mappingOptions).forModel('User');
-    var user:User = new User();
-     user.email = 'wakanda';
-     user.password = 'puppy';
-     user.username = 'nakama';
-     user.token = 'locklock';
+//     var userMapper: mapping.ModelMapper<User> =  new mapping.Mapper(client, mappingOptions).forModel('User');
+//     var user:User = new User();
+//      user.email = 'wakanda';
+//      user.password = 'puppy';
+//      user.username = 'nakama';
+//      user.tocken = 'locklock';
   
-    let usercreate = await userMapper.insert(user);
-    let ulist = await userMapper.findAll();
-  };
+//      let usercreate = await userMapper.insert(user);
+//     let ulist = (await userMapper.findAll()).toArray();
+    
+//   };

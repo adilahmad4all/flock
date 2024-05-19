@@ -27,16 +27,16 @@ export class UserRepository implements OnModuleInit {
   }
 
   async getUserByEmail(email: string) {
-    return await (await this.userMapper.find({ email })).first();
+      let res = await this.cassandraService.client.execute(`SELECT * FROM users WHERE email = '${email}' ALLOW FILTERING`);
+    return res.first();
   }
 
   async getUserByUsername(username: string) {
-    const res = await this.cassandraService.client.execute(`SELECT * FROM users WHERE username = '${username}' ALLOW FILTERING`);
-    if (res?.rows?.length) {
-      return true;
-    }
-
-    return false;
+    // const res = await this.cassandraService.client.execute(`SELECT * FROM users WHERE username = '${username}' ALLOW FILTERING`);
+    const res = await (await this.userMapper.find({ username })).first();
+    
+      return res;
+  
   }
 
   createUser(user: User) {

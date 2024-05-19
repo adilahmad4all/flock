@@ -22,7 +22,7 @@ import {
   MenuController,
 } from '@ionic/angular/standalone';
 import { personAdd, personCircle, settings } from 'ionicons/icons';
-import { MainMenuService ,signalkey } from './services/mainmenue.service';
+import { MainMenuService ,signalkey } from './services/common/mainmenue.service';
 import { StorageService } from './services/common/StorageService';
 
 @Component({

@@ -46,7 +46,7 @@ export class FeedService {
 
     logger.log('ARTICLE-SERVICE: Article created');
 
-    const user = await this.userService.getUserByEmail(article?.author);
+    const user = await this.userService.getUserByUsername(article?.author);
 
     newArticle.author = {
       username: user.username,
@@ -74,7 +74,7 @@ export class FeedService {
       this.tagService.compareAndActOnTags(article.tags, article_exists?.tags);
 
       const updated = await this.feedRepository.getByID(article.id);
-      const user = await this.userService.getUserByEmail(article.author);
+      const user = await this.userService.getUserByUsername(article.author);
 
       const updatedArticle = {
         ...updated,
@@ -206,7 +206,7 @@ export class FeedService {
   async getByAuthor(author, currentUser) {
     logger.log('ARTICLE-SERVICE: Get articles by author triggered');
 
-    const user = await this.userService.getUserByEmail(author);
+    const user = await this.userService.getUserByUsername(author);
     const articles = await this.feedRepository.getByAuthor(author);
     const favorites = await this.favoriteService.getAll();
     const followers = await this.followerService.getFollowers(author);
@@ -242,7 +242,7 @@ export class FeedService {
 
     if (article) {
       const followers = await this.followerService.getFollowers(article.author);
-      const user = await this.userService.getUserByEmail(article?.author);
+      const user = await this.userService.getUserByUsername(article?.author);
       const following = followers.find(follower => follower.followed_by === currentUser);
 
       const updated_article = {

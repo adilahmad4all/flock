@@ -14,7 +14,7 @@ import {
   UserService,
   FollowerService,
   FollowerRepository
-} from '@ithub/repositories';
+} from 'repositories';
 
 @Module({
   controllers: [FeedController],

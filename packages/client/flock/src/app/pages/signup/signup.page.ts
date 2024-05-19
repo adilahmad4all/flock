@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
-import{ Clicker} from "../login/login.page"
+
 import {
   IonButton,
   IonButtons,
@@ -26,6 +26,8 @@ import {
   IonToolbar,
   IonInput,
 } from '@ionic/angular/standalone';
+
+import { IUser } from 'src/app/shared/model/IUser';
 import { AppStateService } from 'src/app/services/common/appStateService';
 import { AuthService } from 'src/app/services/auth.service';
 import { TEXTS } from 'src/app/shared/constants/common';
@@ -88,10 +90,22 @@ export class SignupPage implements OnInit {
               this.authErr = response.errors[0].message;
             }
 
-            this.authSuccessText = TEXTS.AuthSuccessText;
-            setTimeout(() => {
-              this.router.navigate(['/login']);
-            }, 3000);
+            if (response.data) {
+              this.authErr = '';
+              const data = response.data;
+              const dataObj = Object(data);
+              const access_token = dataObj.createUser.token;
+              this.appStateService.setUserToken(access_token);
+              const userInfo: IUser = {
+                email: dataObj.createUser.email,
+                username: dataObj.createUser.username,
+                bio: dataObj.createUser.bio,
+                image: dataObj.createUser.image,
+              };
+              this.appStateService.setCurrentUser(userInfo);
+              this.router.navigate(['/']);
+            }
+           
           },
           error: (err) => {
             console.log(err);

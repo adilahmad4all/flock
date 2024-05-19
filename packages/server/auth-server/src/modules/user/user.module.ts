@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 
 
 import { UserController } from './user.controller';
-import { UserRepository, UserService, SurrealService } from 'repositories';
+import { UserRepository, UserService, CassandraService } from 'repositories';
 
 @Module({
   controllers: [UserController],
   providers: [
     UserService,
-    SurrealService,
+    CassandraService,
     UserRepository
   ],
   exports: []

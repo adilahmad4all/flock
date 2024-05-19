@@ -11,7 +11,7 @@ import {
   GET_FAVORITED_ARTICLES,
   UNFAVORITE_ARTICLE,
   UPDATE_ARTICLE
-} from "../shared/constants/queries/article-queries";
+} from "../shared/queries/article-queries";
 import { IArticle } from "../shared/model/IArticle";
 
 @Injectable()

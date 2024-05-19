@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { User,IUser, UserService } from 'repositories';
+import { User, UserService } from 'repositories';
 
 @Controller()
 export class UserController {
@@ -14,22 +14,22 @@ export class UserController {
   }
 
   @MessagePattern('get_user_by_email')
-  handleGetUser(email) {
-    return this.userService.getUserByEmail(email);
+  handleGetUser(username) {
+    return this.userService.getUserByUsername(username);
   }
 
   @MessagePattern('user_creation')
-  handleUserCreation(user: IUser) {
+  handleUserCreation(user: User) {
     return this.userService.create(user);
   }
 
   @MessagePattern('user_update')
-  handleUseUpdate(user: IUser) {
+  handleUseUpdate(user: User) {
     return this.userService.update(user);
   }
 
   @MessagePattern('validate_user')
-  handleValidateUser(user: IUser) {
+  handleValidateUser(user: User) {
     return this.userService.validateUser(user);
   }
 }
