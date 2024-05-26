@@ -6,6 +6,8 @@ jawax68676@picdv.com
 
 docker run -it --rm --entrypoint cqlsh scylladb/scylla -u root -p root --network=host 
 
+sudo systemctl start scylla-server
+
 CREATE KEYSPACE flock WITH replication = {'class': 'NetworkTopologyStrategy', 'datacenter1' : 3} AND durable_writes = true;
   USE flock;
 

@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Stories
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    @for(item of items; track item ;let idx = $index){
+    <ion-item >
+      <ion-avatar slot="start">
+        <img [src]="'https://picsum.photos/80/80?random=' + idx" alt="avatar" />
+      </ion-avatar>
+      <ion-label>{{ item }}</ion-label>
+    </ion-item>
+  }
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+  <ion-fab-button (click)="openModal()" vertical="top" horizontal="end" >
+    <ion-icon name="person-circle"></ion-icon>
+  </ion-fab-button>
+

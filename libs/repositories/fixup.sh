@@ -1,3 +1,5 @@
+
+echo "hello"
 cat >dist/cjs/src/package.json <<!EOF
 {
     "type": "commonjs"

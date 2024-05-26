@@ -33,7 +33,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
   },
-"exclude":["./src/lib/article/**/*","./src/lib/profile/**/*","node_modules", "dist"],
+"exclude":["src/lib/stories/**/*","./src/lib/profile/**/*","node_modules", "dist"],
 
 "compileOnSave": false,
   // "references": [

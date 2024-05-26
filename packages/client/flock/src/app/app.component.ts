@@ -24,7 +24,7 @@ import {
 import { personAdd, personCircle, settings } from 'ionicons/icons';
 import { MainMenuService ,signalkey } from './services/common/mainmenue.service';
 import { StorageService } from './services/common/StorageService';
-
+import { AppStateService } from './services/common/appStateService';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -48,26 +48,29 @@ import { StorageService } from './services/common/StorageService';
     IonFabList,
     RouterLink,
   ],
-  providers:[MainMenuService,StorageService]
+  providers:[MainMenuService,StorageService,AppStateService]
 })
 export class AppComponent {
   menuController= inject(MenuController);
   storageService= inject(StorageService);
+  appStateService= inject(AppStateService);
+
   public mainMenuService:MainMenuService = inject(MainMenuService);
   signalkey = signalkey;
-  public appPages: any[] = [
-    { title: 'som1', link: 'link', icon: 'triangle' },
-    { title: 'som1', link: 'link', icon: 'triangle' },
-    { title: 'som1', link: 'link', icon: 'triangle' },
-    { title: 'som1', link: 'link', icon: 'triangle' },
-  ];
+ 
   constructor() {
    
     addIcons({  personCircle, settings, personAdd});
   }
 
   ngOnInit() {
-  
+    console.log(this.appStateService.userData());
+  }
+
+  showMenu(){
+    
+    return!!this.appStateService.userData();
+
   }
 
   changeMenuServiceState(key: signalkey) {

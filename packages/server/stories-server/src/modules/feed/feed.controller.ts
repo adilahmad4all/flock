@@ -14,18 +14,18 @@ export class FeedController {
     private readonly commentService: CommentService
   ) { }
 
-  @MessagePattern('create_article')
-  handleCreateArticle(article) {
-    return this.feedService.createArticle(article);
+  @MessagePattern('create_story')
+  handleCreateStory(story) {
+    return this.feedService.createArticle(story);
   }
 
-  @MessagePattern('update_article')
-  handleUpdateArticle(article) {
-    return this.feedService.updateArticle(article);
+  @MessagePattern('update_story')
+  handleUpdateStory(story) {
+    return this.feedService.updateArticle(story);
   }
 
   @MessagePattern('get_all_articles')
-  handleGetAllArticles(currentUser) {
+  handleGetAllStories(currentUser) {
     return this.feedService.getAll(currentUser);
   }
 
@@ -69,7 +69,7 @@ export class FeedController {
     return this.commentService.createComment(comment);
   }
 
-  @MessagePattern('get_comments_by_article')
+  @MessagePattern('get_comments_by_story')
   handleGetCommentsByArticle(payload) {
     return this.commentService.getCommentsByArticle(payload);
   }

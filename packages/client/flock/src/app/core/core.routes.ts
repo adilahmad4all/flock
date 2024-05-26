@@ -17,6 +17,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./sink/sink.page').then((m) => m.SinkPage),
       },
+      {
+        path: 'stories',
+        loadComponent: () =>
+          import('./stories/stories.page').then((m) => m.StoriesPage),
+      },
       
       {
         path: 'communities',

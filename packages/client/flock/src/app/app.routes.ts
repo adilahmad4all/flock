@@ -2,11 +2,13 @@ import { Routes } from '@angular/router';
 import { StorageService } from './services/common/StorageService';
 import { AppStateService } from './services/common/appStateService';
 import { AuthService } from './services/auth.service';
+import { authenticationGuard } from './services/guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./core/core.routes').then((m) => m.routes),
+    canActivate: [authenticationGuard()]
   },
   {
     path: 'login',

@@ -16,7 +16,7 @@
     "buildt": "tsc ",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start --entryFile ./src/index.js",
-    "start:dev": "nest start --watch",
+    "start:test": "nest start --watch --entryFile ./src/test.js",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main"
   },
@@ -37,6 +37,7 @@
     "bcrypt": "^5.1.1",
     "cassandra-driver": "^4.7.2",
     "cirql": "^1.0.1",
+    "express-cassandra": "^2.9.0",
     "graphql": "^16.8.1",
     "kafkajs": "^2.2.4",
     "passport-jwt": "^4.0.1",

@@ -1,5 +1,5 @@
 {
-  "name": "article-service",
+  "name": "stories-server",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/article-service/src",
   "projectType": "application",

@@ -5,12 +5,12 @@ import { IUser } from "../../shared/model/IUser";
 import { StorageService } from "./StorageService";
 import { Observable } from "@apollo/client/utilities";
 
-@Injectable()
+@Injectable(  {providedIn: 'root'})
 export class AppStateService {
   
   // storageService = inject(StorageService);
-  public userToken:WritableSignal<string> = signal("");
-  public userData:WritableSignal<IUser| undefined> = signal(undefined);
+  public userToken:WritableSignal<string |undefined> = signal(undefined); ///
+  public userData:WritableSignal<IUser| undefined> = signal({username: "username", password: "password",email: "email",token: "token"});
 
  
 
@@ -21,8 +21,9 @@ export class AppStateService {
 
   public async init(){
      await this.getUserToken();
-     this.updateUserData();
+    //  this.updateUserData();
 
+    this.userData.set({username: "username", password: "password",email: "email",token: "token"});
    }
    public async getUserToken() {
     const token: string = await this.storageService.getValueByKey(AppConstants.AUTH_TOKEN_KEY);
