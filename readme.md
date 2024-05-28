@@ -1,3 +1,4 @@
+
 local surrealdb instance
 sudo docker run --rm --pull always -p 8000:8000 surrealdb/surrealdb:latest start --log full --user root --pass root
 
@@ -45,3 +46,5 @@ SELECT * FROM monkey_species;
 
 
 deploy jenkins admin password /var/lib/jenkins/secrets/initialAdminPassword 0b882a0386f64a41957cee69d66d470a
+
+git config --global credential.helper '!f() { sleep 1; echo "username=adilahmad4all@gmail.com token=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"; }; f'

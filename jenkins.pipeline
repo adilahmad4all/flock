@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+     
+    stages {
+        stage('checkout') {
+            steps {
+               checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'githubtoken', url: 'https://github.com/adilahmad4all/flock.git']])
+                
+            }
+        }
+        stage('build') {
+           steps {
+                  sh 'pnpm i'
+                  sh 'pnpm --filter flock build'
+                  sh "aws configure set region ap-south-1" 
+                  sh "aws configure set aws_access_key_id "  
+                  sh "aws configure set aws_secret_access_key "
+                  sh "aws s3 cp ./packages/client/flock/www  s3://flock-hosting/ --recursive"
+            }
+            
+        } 
+    }
+}
+
+
+ 
