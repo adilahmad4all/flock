@@ -8,24 +8,20 @@ import { LoggingPlugin } from 'src/shared/plugins/logging';
   imports: [
     ClientsModule.register([
       {
-        name: 'ARTICLE-SERVICE',
+        name: "ARTICLE-SERVICE",
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'article-service',
-            brokers: ['localhost:9092']
+            clientId: "article-service",
+            brokers: [process.env.KAFKA_URL],
           },
           consumer: {
-            groupId: 'article-service'
-          }
-        }
-      }
-    ])
+            groupId: "article-service",
+          },
+        },
+      },
+    ]),
   ],
-  providers: [
-    ArticleResolver,
-    ArticleService,
-    LoggingPlugin
-  ],
+  providers: [ArticleResolver, ArticleService, LoggingPlugin],
 })
-export class ArticleModule { }
+export class ArticleModule {}

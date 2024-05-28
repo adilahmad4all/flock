@@ -16,7 +16,8 @@
     "buildt": "tsc ",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start --entryFile ./src/index.js",
-    "start:test": "nest start --watch --entryFile ./src/test.js",
+    "start:testProd": "NODE_ENV=prod nest start --watch --entryFile ./src/test.js",
+    "start:test": "NODE_ENV=local nest start --watch --entryFile ./src/test.js",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main"
   },
@@ -25,6 +26,7 @@
   "license": "ISC",
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
     "@nestjs/graphql": "^12.1.0",
     "@nestjs/jwt": "^10.0.0",

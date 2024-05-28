@@ -40,3 +40,8 @@ CREATE TABLE Users (
 );
 INSERT INTO monkey_species (species, common_name, population, average_size) VALUES ('Saguinus niger', 'Black tamarin', 10000, 500);
 SELECT * FROM monkey_species;
+
+
+
+
+deploy jenkins admin password /var/lib/jenkins/secrets/initialAdminPassword 0b882a0386f64a41957cee69d66d470a

@@ -6,6 +6,7 @@ export class CassandraService {
 
   client: Client;
   mapper: mapping.Mapper;
+  
 
   private createClient() {
     // Local Connection
