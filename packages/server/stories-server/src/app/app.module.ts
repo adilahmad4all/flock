@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { FeedModule } from '../modules/feed/feed.module';
+import { FeedModule } from '../modules/stories/stories.module';
 
 import { AppController } from './app.controller';
 

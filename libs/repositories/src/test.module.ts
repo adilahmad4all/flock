@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { Controller } from "@nestjs/common";
-import { UserService } from "./lib/auth/services/user.service";
-import { UserRepository } from "./lib/auth/user.repository";
+import { UserService } from "./lib/user/services/user.service";
+import { UserRepository } from "./lib/user/user.repository";
 import { DbOrmService } from "./lib/service/dbOrm.service";
 import { CassandraService } from "./lib/service/database.service";
 import { ConfigModule } from "@nestjs/config";

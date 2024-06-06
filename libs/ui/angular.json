@@ -16,7 +16,7 @@
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "tsconfig.app.json",
-            "project": "ng-package.json",
+            "project": "ng-package.json"
            
           },
           "configurations": {
@@ -28,6 +28,9 @@
         
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 
 }

@@ -1,4 +1,3 @@
-
 import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
@@ -7,9 +6,9 @@ import * as path from "path";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 
-import { AuthModule } from "../modules/auth/auth.module";
+import { AuthModule } from "../modules/user/auth.module";
 import { ProfileModule } from "../modules/profile/profile.module";
-import { ArticleModule } from "../modules/article/article.module";
+import { StoriesModule } from "../modules/stories/stories.module";
 
 import { LoggingPlugin } from "../shared/plugins/logging";
 import { ConfigModule } from "@nestjs/config";
@@ -27,12 +26,12 @@ const ENV = process.env.NODE_ENV;
     }),
     AuthModule,
     ProfileModule,
-    ArticleModule,
+    StoriesModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
 
-      include: [AuthModule, ProfileModule, ArticleModule],
+      include: [AuthModule, ProfileModule, StoriesModule],
       context: ({ req }) => ({
         cors: {
           origin: "*",

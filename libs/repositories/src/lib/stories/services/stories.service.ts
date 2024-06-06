@@ -1,12 +1,12 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { randomUUID } from "crypto";
-import { UserService } from "../../auth/services/user.service";
+import { UserService } from "../../user/services/user.service";
 import { FollowerService } from "../../profile/services/follower.service";
 import { StoriesRepository } from "../stories.repository";
 
 const logger = new Logger();
 @Injectable()
-export class StoryService {
+export class StoriesService {
   constructor(
     private readonly StoriesRepository: StoriesRepository,
 

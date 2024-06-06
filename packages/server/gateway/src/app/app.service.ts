@@ -4,6 +4,6 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
 
   getData(): { message: string } {
-    return { message: 'Welcome to IThub' };
+    return { message: 'Welcome to Flock' };
   }
 }
