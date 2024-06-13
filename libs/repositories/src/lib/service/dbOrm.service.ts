@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import * as ExpressCassandra from "express-cassandra";
 import { ConfigService } from "@nestjs/config";
+import { ClientOptions, types, } from "cassandra-driver";
+  
 
 @Injectable()
 export class DbOrmService {
@@ -24,6 +26,6 @@ export class DbOrmService {
         },
         migration: "safe",
       },
-    });
+    } as ClientOptions);
   }
 }

@@ -1,3 +1,13 @@
 {
-    "editor.fontSize": 15
+  "editor.fontSize": 15,
+  "sqltools.connections": [
+    {
+      "server": "localhost",
+      "port": 9042,
+      "previewLimit": 50,
+      "askForPassword": true,
+      "driver": "Scylla",
+      "name": "local"
+    }
+  ]
 }

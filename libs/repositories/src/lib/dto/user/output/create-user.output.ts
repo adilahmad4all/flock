@@ -17,4 +17,7 @@ export class CreateUserOutput {
 
   @Field({ nullable: true })
   image: string;
+
+  @Field({ nullable: true })
+  profile_pic: string;
 }

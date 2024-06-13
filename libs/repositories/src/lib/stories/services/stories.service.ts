@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { randomUUID } from "crypto";
-import { UserService } from "../../user/services/user.service";
+import { UserService } from "../../user/user.service";
 import { FollowerService } from "../../profile/services/follower.service";
 import { StoriesRepository } from "../stories.repository";
 

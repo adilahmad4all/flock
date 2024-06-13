@@ -24,6 +24,11 @@ import {
   IonTitle,
   IonToolbar,
   IonInput,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCard,
+
 } from '@ionic/angular/standalone';
 import { AppStateService } from 'src/app/services/common/appStateService';
 import { IUser } from 'src/app/shared/model/IUser';
@@ -51,6 +56,10 @@ import { IUser } from 'src/app/shared/model/IUser';
     IonText,
     IonRow,
     IonCol,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardTitle,
     RouterLink,
     FormsModule,
     ReactiveFormsModule,
@@ -76,19 +85,12 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
-
-
-
-  public clicker(){
+  public clicker() {
     console.log('clicked');
-  
-}
-
-
+  }
 
   public loginservice(username: string, password: string) {
-
-  this.submitted = true;
+    this.submitted = true;
     console.log(username, password);
     if (username?.trim().length && password?.trim().length) {
       this.appStateService.resetUser();

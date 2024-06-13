@@ -1,7 +1,7 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { GraphQLAuthGuard } from "../../shared/jwt/jwt-auth.guard";
-import {  } from "repositories";
+import { GraphQLAuthGuard } from "../../services/jwt/jwt-auth.guard";
+
 import {
   Comment,
   Stories,
@@ -52,10 +52,6 @@ export class StoriesResolver {
     return this.storiesService.getByID(payload);
   }
 
-
-
-
-
   @Mutation(() => String)
   @UseGuards(GraphQLAuthGuard)
   deleteStories(@Args("payload") payload: DeleteStoriesInput) {
@@ -83,5 +79,4 @@ export class StoriesResolver {
   }
 
   // Tag APIs
-
 }

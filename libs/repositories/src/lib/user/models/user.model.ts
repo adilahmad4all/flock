@@ -1,11 +1,37 @@
-import * as crypto from "crypto";
+import * as bcrypt from "bcrypt";
 export class User {
-  email: string;
-  username: string;
-  password?: string;
-  bio?: string;
-  image?: string;
-  tocken?: string;
+  id?: string | undefined = undefined;
+  name?: string | undefined = undefined;
+  surname?: string | undefined = undefined;
+  complete_name?: string | undefined = undefined;
+  phonenumber?: string | undefined = undefined;
+  email?: string | undefined = undefined;
+  username?: string | undefined = undefined;
+  bio?: string | undefined = undefined;
+  image?: string | undefined = undefined;
+  tocken?: string | undefined = undefined;
+  birthday?: Date | undefined = undefined;
+  active?: boolean | undefined = undefined;
+  created?: Date | undefined = undefined;
+  password?: string | undefined = undefined;
+  password_hash?: string | undefined = undefined;
+  profile_pic?: string | undefined = undefined;
+  static CreateFrom(extendedUser: Partial<User>|null): User {
+    if (!extendedUser) return null;
+       const user = new User();
+    Object.getOwnPropertyNames(user).forEach((key) => {
+      if (key in extendedUser) {
+        user[key] = extendedUser[key];
+      }
+    });
+    return user;
+  }
+  static SanitiseUser(user: User): User {
+    user.password ? delete user.password : null;
+    user.password_hash ? delete user.password_hash : null;
+    user.id ? delete user.id : null;
+    return user;
+  }
 }
 
 export const UsersSchema = {
@@ -43,9 +69,18 @@ export const UsersSchema = {
         return this.name + " " + this.surname;
       },
     },
+    profile_pic: {
+      type: "uuid",
+      default: { $db_function: "uuid()" },
+    },
+    password_hash: {
+      type: "varchar",
 
-    password_hash: "blob",
-    age: "int",
+      rule: {
+        required: true,
+      },
+    },
+    birthday: "timestamp",
     active: "boolean",
     created: {
       type: "timestamp",
@@ -54,13 +89,14 @@ export const UsersSchema = {
   },
   key: [["id"], "created"],
   clustering_order: { created: "desc" },
- 
+
   indexes: ["name", "username", "email"],
-  
+
   table_name: "users",
   methods: {
-    setPassword: function (password, callback) {
-      const hashed = crypto.pbkdf2Sync(password, "salt", 100000, 512, "sha512");
+    setPassword: async function (password, callback) {
+      // const hashed = crypto.pbkdf2Sync(password, "salt", 100000, 512, "sha512");
+      const hashed = await bcrypt.hash(password, 10);
       this.password_hash = hashed;
     },
   },

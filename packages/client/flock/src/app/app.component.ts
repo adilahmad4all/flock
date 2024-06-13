@@ -1,4 +1,4 @@
-import { Component, inject, NgModule, Signal } from '@angular/core';
+import { Component, inject, NgModule, Signal,  } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -25,6 +25,8 @@ import { personAdd, personCircle, settings } from 'ionicons/icons';
 import { MainMenuService ,signalkey } from './services/common/mainmenue.service';
 import { StorageService } from './services/common/StorageService';
 import { AppStateService } from './services/common/appStateService';
+import { UserService } from './services/user.service';
+import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -48,33 +50,29 @@ import { AppStateService } from './services/common/appStateService';
     IonFabList,
     RouterLink,
   ],
-  providers:[MainMenuService,StorageService,AppStateService]
+  providers: [MainMenuService, StorageService, AppStateService],
 })
 export class AppComponent {
-  menuController= inject(MenuController);
-  storageService= inject(StorageService);
-  appStateService= inject(AppStateService);
+  menuController = inject(MenuController);
+  storageService = inject(StorageService);
+  appStateService = inject(AppStateService);
 
-  public mainMenuService:MainMenuService = inject(MainMenuService);
+  public mainMenuService: MainMenuService = inject(MainMenuService);
   signalkey = signalkey;
- 
+  userData$ = this.appStateService.userData();
   constructor() {
-   
-    addIcons({  personCircle, settings, personAdd});
+    addIcons({ personCircle, settings, personAdd });
   }
 
   ngOnInit() {
-    console.log(this.appStateService.userData());
+    console.log('user', this.appStateService.userData());
   }
 
-  showMenu(){
-    
-    return!!this.appStateService.userData();
-
+  showMenu() {
+    return !!this.appStateService.userData();
   }
 
   changeMenuServiceState(key: signalkey) {
-      this.mainMenuService.State.set(key);
+    this.mainMenuService.State.set(key);
   }
- 
 }

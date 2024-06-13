@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { Controller } from "@nestjs/common";
-import { UserService } from "./lib/user/services/user.service";
+import { UserService } from "./lib/user/user.service";
 import { UserRepository } from "./lib/user/user.repository";
 import { DbOrmService } from "./lib/service/dbOrm.service";
-import { CassandraService } from "./lib/service/database.service";
+
 import { ConfigModule } from "@nestjs/config";
 import path from "path";
 
@@ -22,7 +22,7 @@ const ENV = process.env.NODE_ENV;
       isGlobal: true,
     }),
   ],
-  providers: [DbOrmService, UserRepository, UserService, CassandraService],
+  providers: [DbOrmService, UserRepository, UserService],
   controllers: [TestController],
 })
 export class TestModule {}

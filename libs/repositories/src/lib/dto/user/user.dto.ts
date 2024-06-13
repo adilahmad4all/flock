@@ -20,4 +20,10 @@ export class User {
 
   @Field({ nullable: true })
   token: string;
+
+  @Field({ nullable: true })
+  profile_pic: string;
+
+  @Field({ nullable: true })
+  profile_pic_action: string;
 }

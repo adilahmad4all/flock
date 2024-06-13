@@ -1,7 +1,7 @@
 import { gql } from "apollo-angular";
 
-export const CREATE_ARTICLE = gql`
-  mutation createArticle($title: String!, $description: String!, $body: String!, $tags: String!, $slug: String!, $author: String!, $createdAt: String!, $updatedAt: String!, $token: String!) {
+export const CREATE_STORIES = gql`
+  mutation createStories($title: String!, $description: String!, $body: String!, $tags: String!, $slug: String!, $author: String!, $createdAt: String!, $updatedAt: String!, $token: String!) {
     createArticle (
       article: {
         title: $title,
@@ -33,7 +33,7 @@ export const CREATE_ARTICLE = gql`
   }
 `;
 
-export const UPDATE_ARTICLE = gql`
+export const UPDATE_STORIES = gql`
   mutation update($id: String!, $title: String!, $description: String!, $body: String!, $tags: String!, $slug: String!, $author: String!, $updatedAt: String!, $token: String!) {
     updateArticle (
       article: {
@@ -66,7 +66,7 @@ export const UPDATE_ARTICLE = gql`
   }
 `;
 
-export const GET_ARTICLE_BY_ID = gql`
+export const GET_STORIES_BY_ID = gql`
   query getArticleByID($articleID: String!, $currentUser: String!, $token: String!) {
     getArticleByID(
       payload: {
@@ -96,7 +96,7 @@ export const GET_ARTICLE_BY_ID = gql`
   }
 `;
 
-export const GET_ARTICLES = gql`
+export const GET_STORIES = gql`
   query getAllArticles($currentUser: String!, $token: String!) {
     getAllArticles(
       payload: {
@@ -125,7 +125,7 @@ export const GET_ARTICLES = gql`
   }
 `;
 
-export const GET_ARTICLES_BY_TAG = gql`
+export const GET_STORIES_BY_TAG = gql`
   query getArticlesByTag($tag: String!, $currentUser: String!, $token: String!) {
     getArticlesByTag(
       payload: {
@@ -155,7 +155,7 @@ export const GET_ARTICLES_BY_TAG = gql`
   }
 `;
 
-export const GET_ARTICLES_BY_AUTHOR = gql`
+export const GET_STORIES_BY_AUTHOR = gql`
   query getArticlesByAuthor($author: String!, $currentUser: String!, $token: String!) {
     getArticlesByAuthor(
       payload: {
@@ -185,7 +185,7 @@ export const GET_ARTICLES_BY_AUTHOR = gql`
   }
 `;
 
-export const GET_FAVORITED_ARTICLES = gql`
+export const GET_FAVORITED_STORIES = gql`
   query getFavoritedArticles($favoritedUser: String!, $currentUser: String!, $token: String!) {
     getFavoritedArticles(
       payload: {
@@ -215,7 +215,7 @@ export const GET_FAVORITED_ARTICLES = gql`
   }
 `;
 
-export const FAVORITE_ARTICLE = gql`
+export const FAVORITE_STORIES = gql`
   mutation favoriteArticle($article: String!, $favorited_by: String!, $token: String!) {
     favoriteArticle (
       favoriteArgs: {
@@ -227,7 +227,7 @@ export const FAVORITE_ARTICLE = gql`
   }
 `;
 
-export const UNFAVORITE_ARTICLE = gql`
+export const UNFAVORITE_STORIES = gql`
   mutation unfavoriteArticle($article: String!, $favorited_by: String!, $token: String!) {
     unfavoriteArticle (
       unfavoriteArgs: {
@@ -239,7 +239,7 @@ export const UNFAVORITE_ARTICLE = gql`
   }
 `;
 
-export const DELETE_ARTICLE = gql`
+export const DELETE_STORIES = gql`
   mutation deleteArticle($articleID: String!, $articleTitle: String!, $token: String!) {
     deleteArticle (
       payload: {

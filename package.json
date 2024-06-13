@@ -1,13 +1,24 @@
 {
-  "name": "IThub",
+  "name": "flockrepo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "repositories": "pnpm --filter repositories build ",
+    "flock": "pnpm --filter flock start",
+    "gateway": "pnpm --filter gateway start",
+    "auth": "pnpm --filter auth-server start",
     "docker:flock": "docker build -t flock --target serve  --build-arg SERVICE_PATH=./packages/client/flock --build-arg PACKAGE_NAME=flock --build-arg PNPM_VERSION=9.0.6 --build-arg EXPOSED_PORT=4200 .",
     "docker:gateway": "docker build -t gateway --target deploy  --build-arg SERVICE_PATH=./packages/server/gateway --build-arg PACKAGE_NAME=gateway --build-arg PNPM_VERSION=9.0.6 --build-arg EXPOSED_PORT=3333 .",
     "docker:auth": "docker build -t gateway --target deploy  --build-arg SERVICE_PATH=./packages/server/auth-server --build-arg PACKAGE_NAME=auth-server --build-arg PNPM_VERSION=9.0.6 --build-arg EXPOSED_PORT=3333 .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local:kafka:r": " sudo rm -rf ~/kafka/kafka/logs && systemctl restart kafka",
+    "local:kafka:s": " sudo systemctl status kafka",
+    "local:scylla:r": "sudo systemctl restart scylla-server",
+    "local:scylla:s": "sudo systemctl status scylla-server",
+    "local:scylla:sm": "sudo systemctl status scylla-manager.service && sudo systemctl start scylla-manager-agent",
+    "local:i:minio": "wget https://dl.min.io/server/minio/release/linux-amd64/minio_20240606093642.0.0_amd64.deb && sudo dpkg -i minio_20240606093642.0.0_amd64.deb",
+    "local:s:minio": " MINIO_ROOT_USER=admin MINIO_ROOT_PASSWORD=password minio server $HOME/minio --console-address ':9001' "
   },
   "keywords": [],
   "author": "",

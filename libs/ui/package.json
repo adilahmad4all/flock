@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "tsc": "rm -fr dist/* && tsc --build",
-    "start": "ng serve",
+    "start:dev": "ng serve",
     "build": "ng build",
     "update": "ng update",
     "test": "ng test"

@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ProfileResolver } from './profile.resolver';
-import { ProfileService } from './profile.service';
-import { LoggingPlugin } from 'src/shared/plugins/logging';
+import { Module } from "@nestjs/common";
+import { ClientsModule, Transport } from "@nestjs/microservices";
+import { ProfileResolver } from "./profile.resolver";
+import { ProfileService } from "./profile.service";
+import { LoggingPlugin } from "src/services/plugins/logging";
 
 @Module({
   imports: [

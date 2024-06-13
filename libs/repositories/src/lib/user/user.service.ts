@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { User } from "../models/user.model";
-import { UserRepository } from "../user.repository";
+import { User } from "./models/user.model";
+import { UserRepository } from "./user.repository";
 import * as bcrypt from "bcrypt";
 
 const logger = new Logger();
@@ -40,11 +40,8 @@ export class UserService {
       logger.log("AUTH-SERVICE - Email or Username already taken");
       return;
     }
-
-    const res = await this.userRepository.createUser(user);
-    delete user.password;
-
-    return user;
+    const new_user = await this.userRepository.createUser(user);
+    return JSON.stringify(User.SanitiseUser(new_user));
   }
 
   async update(user: User) {
@@ -60,9 +57,7 @@ export class UserService {
       const updatedUser = await this.userRepository.getUserByUsername(
         user.username
       );
-      delete updatedUser.password;
-
-      return updatedUser;
+      return JSON.stringify(User.SanitiseUser(updatedUser));
     }
   }
 
@@ -75,15 +70,14 @@ export class UserService {
     if (found_user) {
       const isPasswordOk = await bcrypt.compare(
         user.password,
-        found_user.password
+        found_user.password_hash
       );
 
       if (isPasswordOk) {
         logger.log("AUTH-SERVICE - Login Successful");
-        return found_user;
+        return JSON.stringify(User.SanitiseUser(found_user));
       }
     }
-
     logger.log("AUTH-SERVICE - Invalid Failed");
     return;
   }

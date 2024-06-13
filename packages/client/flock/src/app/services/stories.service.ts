@@ -1,17 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Apollo } from "apollo-angular";
 import {
-  CREATE_ARTICLE,
-  DELETE_ARTICLE,
-  FAVORITE_ARTICLE,
-  GET_ARTICLES,
-  GET_ARTICLES_BY_AUTHOR,
-  GET_ARTICLES_BY_TAG,
-  GET_ARTICLE_BY_ID,
-  GET_FAVORITED_ARTICLES,
-  UNFAVORITE_ARTICLE,
-  UPDATE_ARTICLE
-} from "../shared/queries/article-queries";
+  CREATE_STORIES,
+  DELETE_STORIES,
+
+  GET_STORIES,
+  GET_STORIES_BY_AUTHOR,
+  GET_STORIES_BY_TAG,
+  GET_STORIES_BY_ID,
+
+  UPDATE_STORIES
+} from "../shared/queries/stories-queries";
 import { IArticle } from "../shared/model/IArticle";
 
 @Injectable()
@@ -23,21 +22,21 @@ export class ArticleService {
 
   create(article: IArticle) {
     return this.apollo.mutate({
-      mutation: CREATE_ARTICLE,
+      mutation: CREATE_STORIES,
       variables: article
     });
   }
 
   update(article: IArticle) {
     return this.apollo.mutate({
-      mutation: UPDATE_ARTICLE,
+      mutation: UPDATE_STORIES,
       variables: article
     });
   }
 
   getByID(articleID: string, currentUser: string, token: string) {
     return this.apollo.query({
-      query: GET_ARTICLE_BY_ID,
+      query: GET_STORIES_BY_ID,
       variables: {
         articleID,
         currentUser,
@@ -49,7 +48,7 @@ export class ArticleService {
 
   getAll(currentUser: string, token: string) {
     return this.apollo.query({
-      query: GET_ARTICLES,
+      query: GET_STORIES,
       variables: {
         currentUser,
         token
@@ -60,7 +59,7 @@ export class ArticleService {
 
   getByTag(tag: string, currentUser: string, token: string) {
     return this.apollo.query({
-      query: GET_ARTICLES_BY_TAG,
+      query: GET_STORIES_BY_TAG,
       variables: {
         tag,
         currentUser,
@@ -71,7 +70,7 @@ export class ArticleService {
 
   getByAuthor(author: string, currentUser: string, token: string) {
     return this.apollo.query({
-      query: GET_ARTICLES_BY_AUTHOR,
+      query: GET_STORIES_BY_AUTHOR,
       variables: {
         author,
         currentUser,
@@ -81,43 +80,10 @@ export class ArticleService {
     });
   }
 
-  getFavorited(favoritedUser: string, currentUser: string, token: string) {
-    return this.apollo.query({
-      query: GET_FAVORITED_ARTICLES,
-      variables: {
-        favoritedUser,
-        currentUser,
-        token
-      },
-      fetchPolicy: 'network-only'
-    });
-  }
-
-  favoriteArticle(article: string, favorited_by: string, token: string) {
-    return this.apollo.mutate({
-      mutation: FAVORITE_ARTICLE,
-      variables: {
-        article,
-        favorited_by,
-        token
-      }
-    });
-  }
-
-  unfavoriteArticle(article: string, favorited_by: string, token: string) {
-    return this.apollo.mutate({
-      mutation: UNFAVORITE_ARTICLE,
-      variables: {
-        article,
-        favorited_by,
-        token
-      }
-    });
-  }
 
   delete(articleID: string, articleTitle: string, token: string) {
     return this.apollo.mutate({
-      mutation: DELETE_ARTICLE,
+      mutation: DELETE_STORIES,
       variables: {
         articleID,
         articleTitle,

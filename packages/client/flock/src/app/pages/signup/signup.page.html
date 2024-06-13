@@ -6,14 +6,13 @@
     <ion-title>Signup</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <div class="signup-logo">
-    <img src="assets/img/appicon.svg" alt="Logo" />
-  </div>
+
 
   <form [formGroup]="signUpForm" novalidate (submit)="signUp()">
     <ion-list lines="none">
+ 
+
       <ion-item>
         <ion-label position="stacked" color="primary">Username</ion-label>
         <ion-input name="username"  formControlName="username" type="text" required> </ion-input>

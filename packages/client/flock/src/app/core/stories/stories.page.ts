@@ -30,26 +30,26 @@ export class StoriesPage implements OnInit {
     }
   }
 
-  onIonInfinite(ev:InfiniteScrollCustomEvent) {
-    this.generateItems();
-    setTimeout(() => {
-      (ev as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
-  }
+  // onIonInfinite(ev:InfiniteScrollCustomEvent) {
+  //   this.generateItems();
+  //   setTimeout(() => {
+  //     (ev as InfiniteScrollCustomEvent).target.complete();
+  //   }, 500);
+  // }
 
-  async openModal() {
-    const modal = await this.modalCtrl.create({
-      component: StoriesModal,
-      cssClass: 'fullscreen'
-    });
-    modal.present();
+  // async openModal() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: StoriesModal,
+  //     cssClass: 'fullscreen'
+  //   });
+  //   modal.present();
 
-    const { data, role } = await modal.onWillDismiss();
+  //   const { data, role } = await modal.onWillDismiss();
 
-    if (role === 'confirm') {
-      console.log(`Hello, ${data}!`);
-    }
-  }
+  //   if (role === 'confirm') {
+  //     console.log(`Hello, ${data}!`);
+  //   }
+  // }
 }
 
 

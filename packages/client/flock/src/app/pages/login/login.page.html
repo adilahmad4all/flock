@@ -8,13 +8,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="login-logo">
-    <img src="assets/img/appicon.svg" alt="Ionic logo" />
-  </div>
+<ion-content
+  class="ion-padding"
+  style="display: flex; align-items: center; justify-content: center"
+>
+  <ion-card
+    class="ion-padding"
+    style="display: flex; flex-direction: column; align-items: center"
+  >
+    <img
+      alt="Silhouette of mountains"
+      src="../../../assets/image-logo-black.png"
+      style="max-width: 15%"
+    />
+    <ion-card-header>
+      <ion-card-title>Self Hosted Social Media</ion-card-title>
+    </ion-card-header>
 
-  <form [formGroup]="LoginForm" novalidate (submit)="loginservice(LoginForm.value.username,LoginForm.value.password)">
-    <ion-list>
+    <ion-card-content>
+      Flock is a self hosted Social Media that can act as a federation or
+      Standalone
+    </ion-card-content>
+  </ion-card>
+
+  <form
+    [formGroup]="LoginForm"
+    novalidate
+    (submit)="loginservice(LoginForm.value.username,LoginForm.value.password)"
+  >
+    <ion-list
+      style="display: flex; flex-direction: column; align-items: center"
+    >
       <ion-item>
         <ion-label position="stacked" color="primary">Username</ion-label>
         <ion-input
@@ -38,13 +62,7 @@
 
       <ion-item>
         <ion-label position="stacked" color="primary">Password</ion-label>
-        <ion-input
-         
-          formControlName="password"
-          type="password"
-         
-          required
-        >
+        <ion-input formControlName="password" type="password" required>
         </ion-input>
       </ion-item>
 
@@ -60,19 +78,13 @@
 
     <ion-row>
       <ion-col>
-        <ion-button  type="submit" expand="block"
-          >Login</ion-button
-        >
-      </ion-col>
-      <ion-col>
         <ion-button [routerLink]="['/signup']" color="light" expand="block"
           >Signup</ion-button
         >
       </ion-col>
+      <ion-col>
+        <ion-button type="submit" expand="block">Login</ion-button>
+      </ion-col>
     </ion-row>
-
-    <ion-button (click)="clicker()" color="light" expand="block"
-    >Clicker</ion-button>
-
   </form>
 </ion-content>

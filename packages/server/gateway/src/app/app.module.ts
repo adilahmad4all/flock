@@ -10,8 +10,9 @@ import { AuthModule } from "../modules/user/auth.module";
 import { ProfileModule } from "../modules/profile/profile.module";
 import { StoriesModule } from "../modules/stories/stories.module";
 
-import { LoggingPlugin } from "../shared/plugins/logging";
+import { LoggingPlugin } from "../services/plugins/logging";
 import { ConfigModule } from "@nestjs/config";
+import { MinioService } from "src/services/minio.service";
 
 const ENV = process.env.NODE_ENV;
 @Module({
@@ -42,7 +43,7 @@ const ENV = process.env.NODE_ENV;
   ],
 
   controllers: [AppController],
-  providers: [AppService, LoggingPlugin],
+  providers: [AppService, LoggingPlugin, MinioService],
 })
 export class AppModule {}
 function ApolloServerOperationRegistry(arg0: {}) {

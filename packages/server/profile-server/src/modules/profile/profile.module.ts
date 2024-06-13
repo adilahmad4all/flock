@@ -1,4 +1,4 @@
-import { CassandraService } from '@ithub/cassandra-service';
+import { DbOrmService } from 'repositories;
 import { Module } from '@nestjs/common';
 import { ProfileController } from './profile.controller';
 import {
@@ -6,7 +6,7 @@ import {
   ProfileRepository,
   ProfileService,
   FollowerRepository
-} from '@ithub/repositories';
+} from 'repositories';
 
 @Module({
   imports: [],
@@ -16,7 +16,7 @@ import {
     ProfileRepository,
     FollowerRepository,
     FollowerService,
-    CassandraService
+   
   ],
 })
 export class ProfileModule { }

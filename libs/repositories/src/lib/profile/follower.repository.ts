@@ -1,51 +1,45 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { mapping } from 'cassandra-driver';
-import { CassandraService } from '../service/database.service';
-import { Follower } from './models/follower.model';
+import { Injectable, OnModuleInit } from "@nestjs/common";
+
+import { DbOrmService } from "../service/dbOrm.service";
+import { FollowerSchema } from "./models/follower.model";
 
 @Injectable()
 export class FollowerRepository implements OnModuleInit {
+  private model;
 
-  constructor(private cassandraService: CassandraService) { }
+  constructor(public db: DbOrmService) {
+    this.model = db.client.loadSchema("FollowerSchema", FollowerSchema);
+  }
 
-  followerMapper: mapping.ModelMapper<Follower>;
+  // userMapper: mapping.ModelMapper<User>;
 
   onModuleInit() {
-    const mappingOptions: mapping.MappingOptions = {
-      models: {
-        'Follower': {
-          tables: ['followers'],
-          mappings: new mapping.UnderscoreCqlToCamelCaseMappings
-        }
-      }
-    }
-
-    this.followerMapper = this.cassandraService.createMapper(mappingOptions).forModel('Follower');
-  }
-
-  async getAll() {
-    return await (await this.followerMapper.findAll()).toArray();
-  }
-
-  async getFollowers(email: string) {
-    const res = await this.cassandraService.client.execute(`SELECT * FROM followers WHERE followed_profile = '${email}' ALLOW FILTERING`);
-
-    return res?.rows;
-  }
-
-  follow(followed_profile, followed_by) {
-    return this.followerMapper.insert({
-      followed_profile,
-      followed_by
+    this.model.syncDB(function (err, result) {
+      if (err) console.log(err);
+      // result == true if any database schema was updated
+      // result == false if no schema change was detected in your models
     });
   }
 
-  unfollow(followed_profile, followed_by) {
-    return this.cassandraService
-      .client
-      .execute(
-        `DELETE FROM followers WHERE followed_profile = '${followed_profile}' AND followed_by = '${followed_by}'`
-      );
+  async getAll() {
+    // return await (await this.followerMapper.findAll()).toArray();
   }
 
+  async getFollowers(email: string) {
+    // const res = await this.cassandraService.client.execute(
+    //   `SELECT * FROM followers WHERE followed_profile = '${email}' ALLOW FILTERING`
+    // );
+
+    // return res?.rows;
+  }
+
+  async follow(followed, follower) {
+    var newFollower = new this.model({ followed, follower });
+
+    return await newFollower.saveAsync();
+  }
+
+  unfollow(followed_profile, followed_by) {
+
+  }
 }

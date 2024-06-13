@@ -5,7 +5,7 @@ export * from "./lib/stories/comment.repository";
 
 // export * from "./lib/user/models/user.model";
 
-export * from "./lib/user/services/user.service";
+export * from "./lib/user/user.service";
 
 export * from "./lib/user/user.repository";
 export * from "./lib/service/dbOrm.service";

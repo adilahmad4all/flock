@@ -1,13 +1,8 @@
 import { gql } from 'apollo-angular';
 
 export const LOGIN = gql`
-  query login($email: String!, $password: String!) {
-    loginUser(
-      user:{
-        email: $email,
-        password: $password
-      }
-    ) {
+  query login($username: String!, $password: String!) {
+    loginUser(user: { username: $username, password: $password }) {
       email
       token
       username

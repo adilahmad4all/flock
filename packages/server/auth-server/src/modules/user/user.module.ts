@@ -1,16 +1,23 @@
-import { Module } from '@nestjs/common';
+import * as path from "path";
+import { Module } from "@nestjs/common";import { ConfigModule } from "@nestjs/config";
 
-
-import { UserController } from './user.controller';
-import { UserRepository, UserService } from 'repositories';
+import { UserController } from "./user.controller";
+import { DbOrmService, UserRepository, UserService } from "repositories";
+const ENV = process.env.NODE_ENV;
 
 @Module({
   controllers: [UserController],
-  providers: [
-    UserService,
-    ,
-    UserRepository
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: path.resolve(
+        process.cwd(),
+        "config/env",
+        !ENV ? ".env.local" : `.env.${ENV}`
+      ),
+      isGlobal: true,
+    }),
   ],
-  exports: []
+  providers: [DbOrmService,UserService,  UserRepository],
+  exports: [],
 })
-export class UserModule { }
+export class UserModule {}

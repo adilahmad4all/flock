@@ -25,6 +25,7 @@ import {
   IonTitle,
   IonToolbar,
   IonInput,
+  IonIcon
 } from '@ionic/angular/standalone';
 
 import { IUser } from 'src/app/shared/model/IUser';
@@ -54,6 +55,7 @@ import { TEXTS } from 'src/app/shared/constants/common';
     IonText,
     IonRow,
     IonCol,
+    IonIcon,
     RouterLink,
     ReactiveFormsModule,
   ],

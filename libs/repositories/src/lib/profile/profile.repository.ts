@@ -1,32 +1,31 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { mapping } from 'cassandra-driver';
-import { CassandraService } from '../service/database.service';
-import { Profile } from './models/profile.model';
+import { DbOrmService } from '../service/dbOrm.service';
+import { Profile, ProfileSchema } from "./models/profile.model";
 
 @Injectable()
 export class ProfileRepository implements OnModuleInit {
-
-  constructor(private cassandraService: CassandraService) { }
+  private model;
+  constructor(private db: DbOrmService) {
+    this.model = db.client.loadSchema("ProfileSchema", ProfileSchema);
+  }
 
   profileMapper: mapping.ModelMapper<Profile>;
 
   onModuleInit() {
-    const mappingOptions: mapping.MappingOptions = {
-      models: {
-        'Profile': {
-          tables: ['users'],
-          mappings: new mapping.UnderscoreCqlToCamelCaseMappings
-        }
-      }
-    }
-
-    this.profileMapper = this.cassandraService.createMapper(mappingOptions).forModel('Profile');
+    this.model.syncDB(function (err, result) {
+      if (err) console.log(err);
+      // result == true if any database schema was updated
+      // result == false if no schema change was detected in your models
+    });
   }
 
-  async getProfileByUsername(username: string) {
-    const res = await this.cassandraService.client.execute(`SELECT * FROM users WHERE username = '${username}' ALLOW FILTERING`);
+  async getProfilesById(id: string) {
+    return await this.model.findOneAsync({ owner: id });
+      // `SELECT * FROM users WHERE username = '${username}' ALLOW FILTERING`
+   
 
-    return res?.rows[0];
   }
+
 
 }

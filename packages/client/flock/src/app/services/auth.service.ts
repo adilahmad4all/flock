@@ -22,14 +22,14 @@ export class AuthService {
     });
   }
 
-  login(email: string, password: string) {
+  login(email_username: string, password: string) {
     console.log('authservice');
     return this.apollo.watchQuery({
       query: LOGIN,
       variables: {
-        email,
-        password
-      }
+        username: email_username,
+        password,
+      },
     }).valueChanges;
   }
 }
