@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "all": "pnpm repositories && pnpm flock && pnpm gateway && pnpm auth ",
     "repositories": "pnpm --filter repositories build ",
     "flock": "pnpm --filter flock start",
     "gateway": "pnpm --filter gateway start",
