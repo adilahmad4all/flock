@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 
-import { DbOrmService } from '../service/dbOrm.service';
-import { StoriesSchema } from './models/stories.model';
+import { DbOrmService } from '../../service/dbOrm.service';
+import { StoriesSchema } from '../models/stories.model';
 
 @Injectable()
 export class StoriesRepository implements OnModuleInit {

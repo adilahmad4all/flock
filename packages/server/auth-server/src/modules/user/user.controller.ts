@@ -8,32 +8,31 @@ export class UserController {
 
   // TODO: Remove below listing
   @MessagePattern("users_list")
-  handleGetUsers() {
-    return this.userService.getAll();
+  async handleGetUsers() {
+    return JSON.stringify(this.userService.getAll());
   }
 
   @MessagePattern("get_user_by_email")
-  handleGetUser(username) {
-    return this.userService.getUserByUsername(username);
+  async handleGetUser(username) {
+    return JSON.stringify(this.userService.getUserByUsername(username));
   }
   @MessagePattern("get_user_by_username")
-  handleGetUserbyUsername(username) {
-    return this.userService.getUserByUsername(username);
+  async handleGetUserbyUsername(username) {
+    return JSON.stringify(await this.userService.getUserByUsername(username));
   }
 
   @MessagePattern("user_creation")
   async handleUserCreation(user: User) {
-      return await this.userService.create(user);
-    
+    return JSON.stringify(await this.userService.create(user));
   }
 
   @MessagePattern("user_update")
-  handleUseUpdate(user: User) {
-    return this.userService.update(user);
+  async handleUseUpdate(user: User) {
+    return JSON.stringify(await this.userService.update(user));
   }
 
   @MessagePattern("validate_user")
   async handleValidateUser(user: User) {
-    return await this.userService.validateUser(user);
+    return JSON.stringify(await this.userService.validateUser(user));
   }
 }

@@ -7,10 +7,14 @@ import { JwtModule } from "@nestjs/jwt";
 import { JwtStrategy } from "../../services/jwt/jwt.strategy";
 import { jwtConstants } from "../../constants";
 import { LoggingPlugin } from "src/services/plugins/logging";
-import { MinioService } from "src/services/minio.service";
-
+import { MinioService } from "repositories";
+import { ConfigModule } from "@nestjs/config";
+import * as path from "path";
+import { AppModule } from "src/app/app.module";
+const ENV = process.env.NODE_ENV;
 @Module({
   imports: [
+    AppModule,
     ClientsModule.register([
       {
         name: "AUTH-SERVICE",

@@ -11,6 +11,4 @@ export class CreateUserInput {
   @Field()
   username: string;
 
-  @Field()
-  image: string;
 }

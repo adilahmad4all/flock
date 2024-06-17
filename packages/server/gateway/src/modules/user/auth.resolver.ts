@@ -1,20 +1,20 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { AuthService } from "./auth.service";
 import {
-  User,
+  UserApi,
   CreateUserInput,
   UpdateUserInput,
   UpdatedUserOutput,
-  GetUserInput,
-  CreateUserOutput,
   LoginUserOutput,
   LoginUserInput,
+  CreateUserResponse,
+  MinioService,
 } from "repositories";
 
 import { UseGuards } from "@nestjs/common";
 
 import { GraphQLAuthGuard } from "../../services/jwt/jwt-auth.guard";
-import { MinioService } from "src/services/minio.service";
+
 
 @Resolver()
 export class AuthResolver {
@@ -23,29 +23,32 @@ export class AuthResolver {
     private minioService: MinioService
   ) {}
 
-  @Query(() => [User])
+  @Query(() => [UserApi])
   @UseGuards(GraphQLAuthGuard)
   users() {
     return this.authService.getUsers();
   }
 
-  @Query(() => User)
+  @Query(() => UserApi)
   @UseGuards(GraphQLAuthGuard)
   getUser(@Args("email") email: string) {
     return this.authService.getUser(email);
   }
 
-  @Mutation(() => CreateUserOutput)
+  @Mutation(() => CreateUserResponse)
   async createUser(@Args("user") user: CreateUserInput) {
-    const res = await this.authService.createUser(user);
-    if(res){
-    res.profile_pic_action = this.minioService.presignedPutObject(
-      "profile",
-      res.profile_pic,
-      60 * 60
-    );
-  }
-    return this.authService.createUser(user);
+    const res = new CreateUserResponse();
+    res.data = await this.authService.createUser(user);
+    if (res) {
+      res.action = {
+        profile_pic_action: await this.minioService.presignedPutObject(
+          "profile",
+          res.data.profile_pic,
+          60 * 60
+        ),
+      };
+    }
+    return res;
   }
 
   @UseGuards(GraphQLAuthGuard)

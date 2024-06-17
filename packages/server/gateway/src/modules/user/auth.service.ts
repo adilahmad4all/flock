@@ -12,10 +12,10 @@ import { lastValueFrom, map } from "rxjs";
 import {
   User,
   CreateUserInput,
-  GetUserInput,
   LoginUserInput,
   UpdateUserInput,
   ValidateUserInput,
+  KafkaResponse,
 } from "repositories";
 
 const logger = new Logger();
@@ -51,19 +51,19 @@ export class AuthService implements OnModuleInit {
   async createUser(user: CreateUserInput): Promise<void | any> {
     logger.log("GATEWAY - Create user service");
 
-    const newUser = await lastValueFrom(
+    const result:KafkaResponse<User,null> = await lastValueFrom(
       this.authClient.send("user_creation", user)
     );
 
-    if (!newUser) {
+    if (result.error) {
       logger.log("GATEWAY - User creation failed");
-      throw new BadRequestException("Email or Username already taken");
+      throw new BadRequestException(result.error.message);
     }
 
     logger.log("GATEWAY - User created successfully");
-    const token = this.jwtService.sign(newUser);
-    newUser["token"] = token;
-    return newUser;
+    const token = this.jwtService.sign(result.data);
+    result.data["token"] = token;
+    return result.data;
   }
 
   updateUser(user: UpdateUserInput) {
@@ -90,15 +90,15 @@ export class AuthService implements OnModuleInit {
 
   async login(user: LoginUserInput) {
     return this.authClient.send("validate_user", user).pipe(
-      map((validUser) => {
-        if (validUser) {
+      map((result: KafkaResponse<User,null>) => {
+        if (result.data) {
           return {
-            ...validUser,
-            token: this.jwtService.sign(validUser),
+            ...result.data,
+            token: this.jwtService.sign(result.data),
           };
         }
-
-        throw new NotFoundException("Incorrect Username or Password");
+        
+        throw new NotFoundException(result.error.message );
       })
     );
   }

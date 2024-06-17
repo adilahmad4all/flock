@@ -118,19 +118,19 @@ To deploy the project to AWS, follow these steps:
 
    Run the following commands to set up worker and master nodes:
 
-   <!-- Master Node -->
+   Master Node
 
    ```bash
    sudo hostnamectl set-hostname master
    ```
 
-   <!-- Worker Node -->
+   Worker Node
 
    ```bash
    sudo hostnamectl set-hostname worker # change name for each worker node
    ```
 
-   <!-- All Nodes -->
+   All Nodes
 
    ```bash
    sudo apt-get update && sudo apt-get install -y apt-transport-https curl
@@ -168,7 +168,7 @@ To deploy the project to AWS, follow these steps:
    sudo sysctl --system
    ```
 
-   <!-- Master Node -->
+   Master Node
 
    ```bash
    sudo kubeadm config images pull
@@ -180,7 +180,7 @@ To deploy the project to AWS, follow these steps:
    sudo kubeadm init --apiserver-advertise-address=172.31.1.24 --pod-network-cidr=172.31.0.0/20 # Use your master node’s private IP
    ```
 
-   <!-- Debug -->
+   Debug commands
 
    ```bash
    sudo apt install net-tools
@@ -188,7 +188,7 @@ To deploy the project to AWS, follow these steps:
    sudo kubeadm reset
    ```
 
-   <!-- Master Node -->
+   Master Node
 
    ```bash
    mkdir -p $HOME/.kube
@@ -196,7 +196,7 @@ To deploy the project to AWS, follow these steps:
    sudo chown $(id -u):$(id -g) $HOME/.kube/config
    ```
 
-   <!-- All Nodes -->
+   All Nodes
 
    ```bash
    echo '{"exec-opts": ["native.cgroupdriver=systemd"]}' | sudo tee /etc/docker/daemon.json

@@ -1,3 +1,26 @@
+
+import { ArgsType, Field, ObjectType } from "@nestjs/graphql";
+
+@ArgsType()
+@ObjectType()
+export class ProfileApi {
+  @Field()
+  username: string;
+
+  @Field()
+  email: string;
+
+  @Field()
+  image: string;
+
+  @Field()
+  bio: string;
+
+  @Field()
+  following: boolean;
+}
+
+
 export class Profile {
   user_id?: string;
   username: string;

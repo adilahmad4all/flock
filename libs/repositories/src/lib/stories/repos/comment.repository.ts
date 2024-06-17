@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
-import { DbOrmService } from "../service/dbOrm.service";
-import { CommentsShema } from "./models/comments.model";
+import { DbOrmService } from "../../service/dbOrm.service";
+import { CommentsShema } from "../models/comments.model";
 
 @Injectable()
 export class CommentRepository implements OnModuleInit {

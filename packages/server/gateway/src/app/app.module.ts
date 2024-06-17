@@ -11,8 +11,8 @@ import { ProfileModule } from "../modules/profile/profile.module";
 import { StoriesModule } from "../modules/stories/stories.module";
 
 import { LoggingPlugin } from "../services/plugins/logging";
-import { ConfigModule } from "@nestjs/config";
-import { MinioService } from "src/services/minio.service";
+import { ConfigModule  } from "@nestjs/config";
+
 
 const ENV = process.env.NODE_ENV;
 @Module({
@@ -31,7 +31,7 @@ const ENV = process.env.NODE_ENV;
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
-
+      playground: true,
       include: [AuthModule, ProfileModule, StoriesModule],
       context: ({ req }) => ({
         cors: {
@@ -43,7 +43,8 @@ const ENV = process.env.NODE_ENV;
   ],
 
   controllers: [AppController],
-  providers: [AppService, LoggingPlugin, MinioService],
+  providers: [AppService, LoggingPlugin],
+  
 })
 export class AppModule {}
 function ApolloServerOperationRegistry(arg0: {}) {

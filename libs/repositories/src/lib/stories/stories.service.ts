@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { randomUUID } from "crypto";
-import { UserService } from "../../user/user.service";
-import { FollowerService } from "../../profile/services/follower.service";
-import { StoriesRepository } from "../stories.repository";
+import { UserService } from "../user/user.service";
+import { FollowerService } from "../profile/services/follower.service";
+import { StoriesRepository } from "./repos/stories.repository";
 
 const logger = new Logger();
 @Injectable()
@@ -56,22 +56,24 @@ export class StoriesService {
     logger.log("ARTICLE-SERVICE: Get articles by author triggered");
 
     const user = await this.userService.getUserByUsername(owner);
-    const stories = await this.StoriesRepository.getByOwner(user.id);
-
+    if (user?.data?.id){
+      const stories = await this.StoriesRepository.getByOwner(user.data.id);
+  
     const updated_stories = stories.map((article) => {
       return {
         ...stories,
         createdAt: stories.created_at,
         updatedAt: stories.updated_at,
 
-        author: {
-          username: user.username,
-          email: user.email,
-          bio: user.bio,
-          image: user.image,
-        },
+        // author: {
+        //   username: user.username,
+        //   email: user.email,
+        //   bio: user.bio,
+        //   image: user.image,
+        // },
       };
     });
+  }
   }
 
   async getByID(id, currentUser) {

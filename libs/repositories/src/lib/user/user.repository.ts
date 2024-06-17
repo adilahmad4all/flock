@@ -43,16 +43,16 @@ export class UserRepository implements OnModuleInit {
     );
   }
 
-  async createUser(user: User) {
-    var newUser = new this.model(user);
-    await newUser.setPassword(user.password);
-    return await newUser.saveAsync().first();     
+  async createUser(user: User): Promise<boolean> {
+    try {
+      var newUser = new this.model(user);
+      await newUser.setPassword(user.password);
+      const res = await newUser.saveAsync();
+      return true;
+    } catch (err) {return false;}
   }
 
   async updateUser(user: User) {
-     return User.CreateFrom(
-     await this.model.updateAsync(user).first()
-     );
- 
+    return User.CreateFrom((await this.model.updateAsync(user)).first());
   }
 }

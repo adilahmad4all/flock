@@ -9,11 +9,11 @@ import { ProfileService } from "./profile.service";
 export class ProfileResolver {
   constructor(private profileService: ProfileService) {}
 
-  @Query(() => Profile)
-  @UseGuards(GraphQLAuthGuard)
-  getProfile(@Args("profileArgs") profileArgs: GetProfileInput) {
-    return this.profileService.getProfile(profileArgs);
-  }
+  // @Query(() => Profile)
+  // @UseGuards(GraphQLAuthGuard)
+  // getProfile(@Args("profileArgs") profileArgs: GetProfileInput) {
+  //   return this.profileService.getProfile(profileArgs);
+  // }
 
   @Mutation(() => String)
   @UseGuards(GraphQLAuthGuard)
