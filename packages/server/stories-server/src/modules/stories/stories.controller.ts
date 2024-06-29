@@ -2,7 +2,7 @@ import { Controller } from "@nestjs/common";
 import { MessagePattern } from "@nestjs/microservices";
 import { CommentService, StoriesService } from "repositories";
 @Controller()
-export class FeedController {
+export class StoriesController {
   constructor(
     private readonly storiesService: StoriesService,
     private readonly commentService: CommentService
@@ -18,44 +18,38 @@ export class FeedController {
     return this.storiesService.updateStory(story);
   }
 
-  @MessagePattern("get_all_articles")
+  @MessagePattern("get_all_stories")
   handleGetAllStories(currentUser) {
     return this.storiesService.getAll(currentUser);
   }
 
-  @MessagePattern("get_articles_by_author")
+  @MessagePattern("get_stories_by_author")
   handleGetArticlesByAuthor(payload) {
-    return this.storiesService.getByAuthor(payload.author, payload.currentUser);
+    return this.storiesService.getByID(payload.author, payload.currentUser);
   }
 
-
-  @MessagePattern("get_article_by_id")
+  @MessagePattern("get_stories_by_id")
   handleGetArticleByID(payload) {
     return this.storiesService.getByID(payload.articleID, payload.currentUser);
   }
-
-
-
-
-
-
-  @MessagePattern("delete_article")
+  @MessagePattern("delete_story")
   handleDeleteArticle(payload) {
     return this.storiesService.deleteStory(payload.id, payload.title);
   }
 
-  @MessagePattern("create_comment")
-  handleCreateComment(comment) {
-    return this.commentService.createComment(comment);
-  }
+  // comments
+  // @MessagePattern("create_comment")
+  // handleCreateComment(comment) {
+  //   return this.commentService.createComment(comment);
+  // }
 
-  @MessagePattern("get_comments_by_story")
-  handleGetCommentsByArticle(payload) {
-    return this.commentService.getCommentsByStory(payload);
-  }
+  // @MessagePattern("get_comments_by_story")
+  // handleGetCommentsByArticle(payload) {
+  //   return this.commentService.getCommentsByStory(payload);
+  // }
 
-  @MessagePattern("delete_comment")
-  handleDeleteComments(id) {
-    return this.commentService.deleteComment(id);
-  }
+  // @MessagePattern("delete_comment")
+  // handleDeleteComments(id) {
+  //   return this.commentService.deleteComment(id);
+  // }
 }

@@ -9,6 +9,7 @@
     "flock": "pnpm --filter flock start",
     "gateway": "pnpm --filter gateway start",
     "auth": "pnpm --filter auth-server start",
+    "stories": "pnpm --filter stories-server start",
     "docker:flock": "docker build -t flock --target serve  --build-arg SERVICE_PATH=./packages/client/flock --build-arg PACKAGE_NAME=flock --build-arg PNPM_VERSION=9.0.6 --build-arg EXPOSED_PORT=4200 .",
     "docker:gateway": "docker build -t gateway --target deploy  --build-arg SERVICE_PATH=./packages/server/gateway --build-arg PACKAGE_NAME=gateway --build-arg PNPM_VERSION=9.0.6 --build-arg EXPOSED_PORT=3333 .",
     "docker:auth": "docker build -t gateway --target deploy  --build-arg SERVICE_PATH=./packages/server/auth-server --build-arg PACKAGE_NAME=auth-server --build-arg PNPM_VERSION=9.0.6 --build-arg EXPOSED_PORT=3333 .",

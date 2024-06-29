@@ -30,16 +30,13 @@ export const CommentsShema = {
 
     gallery: {
       type: "set",
-      typedef: "<text>",
+      typeDef: "<varchar>",
     },
 
-    created: {
-      type: "timestamp",
-      default: { $db_function: "toTimestamp(now())" },
-    },
+   
   },
-  key: [["id"], "created", "owner"],
-  clustering_order: { created: "desc" },
+  key: [["id"], "created_at", "owner"],
+  clustering_order: { created_at: "desc" },
 
   table_name: "stories_comments",
 
@@ -53,3 +50,20 @@ export const CommentsShema = {
     },
   },
 };
+
+import { Field, ObjectType } from "@nestjs/graphql";
+
+@ObjectType()
+export class Comment {
+  @Field()
+  id: string;
+
+  @Field()
+  body: string;
+
+  @Field()
+  article: string;
+
+  @Field()
+  created_at: string;
+}

@@ -1,4 +1,4 @@
-```markdown
+````markdown
 # FLock Social Media Prototype
 
 This project is a social media prototype developed using a microservice architecture, with a focus on scalability, performance, and maintainability. The frontend is built with Angular and Ionic, while the backend is built with NestJS, Kafka, Scylla DB, and Express-Cassandra. The project is hosted on AWS, with Jenkins for DevOps, Kubernetes for orchestration, EC2 instances for server hosting, Minio for S3 compatible buckets for static file storage, and CloudFront for content delivery.
@@ -48,6 +48,7 @@ Clone the repo with:
 ```bash
 git clone https://github.com/your-repository/flock.git
 ```
+````
 
 ## Installation
 
@@ -83,11 +84,11 @@ To deploy the project locally, follow these steps:
    pnpm all
    ```
 
-### AWS Deployment
+### CLOUD Deployment
 
-To deploy the project to AWS, follow these steps:
+To deploy the project to Cloud, follow these steps:
 
-1. Create an EC2 instance for Jenkins DevOps:
+1. Create an EC2 or compute vm instance for Jenkins DevOps:
 
    - Launch an EC2 instance on AWS.
    - Install and configure Jenkins on the EC2 instance.
@@ -97,11 +98,10 @@ To deploy the project to AWS, follow these steps:
      - Set up the necessary build, test, and deployment stages in the pipeline.
      - Configure Jenkins to deploy the project to the Kubernetes cluster and AWS services.
 
-2. Set up Kubernetes cluster: (skip steps if using EKS or managed services)
+2. Set up Kubernetes cluster:
 
-   - Create a Kubernetes cluster on AWS using tools like EKS, EKSCTL, or Kops.
    - Configure the necessary networking and security settings for the cluster.
-   - Allow these ports in AWS Firewall configuration:
+   - Allow these ports in Cloud Provider Firewall configuration:
      - Ports for the Control-plane (Master) Node(s):
        - TCP 6443 → For Kubernetes API server
        - TCP 2379–2380 → For etcd server client API
@@ -116,102 +116,165 @@ To deploy the project to AWS, follow these steps:
        - TCP 22 → For remote access with ssh
        - UDP 8472 → Cluster-Wide Network Comm. — Flannel VXLAN
 
-   Run the following commands to set up worker and master nodes:
+   Create MASTER and WORKER Nodes
 
-   Master Node
+RUN THE following in ALL NODES
 
-   ```bash
-   sudo hostnamectl set-hostname master
-   ```
+basic dependencies and update
 
-   Worker Node
+```bash
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+```
 
-   ```bash
-   sudo hostnamectl set-hostname worker # change name for each worker node
-   ```
+{modify master before copy paste depending on node}
 
-   All Nodes
+```bash
+sudo hostnamectl set-hostname master # change master to worker-1 , worker-2 etc
+```
 
-   ```bash
-   sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+Cgroup and iptables for CRI-O
+The following code block sets up the necessary configurations for CRI-O (Container Runtime Interface for OCI) to work with Kubernetes. It modifies the system's modules, loads the required modules, sets up the network configurations, and applies the system-wide settings.
 
-   curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-   echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-   sudo apt update
-
-   sudo apt-get install -y kubectl kubeadm kubelet kubernetes-cni docker.io
-   ```
-
-   Now, we need to start and enable Docker service:
-
-   ```bash
-   sudo systemctl start docker
-   sudo systemctl enable docker
-   ```
-
-   For the Docker group to work smoothly without using sudo command, we should add the current user to the `Docker` group:
-
-   ```bash
-   sudo usermod -aG docker $USER
-
-   newgrp docker
-   ```
-
-   Configure Docker to use the systemd cgroup driver:
-
-   ```bash
-   cat << EOF | sudo tee /etc/sysctl.d/k8s.conf
-   net.bridge.bridge-nf-call-ip6tables = 1
-   net.bridge.bridge-nf-call-iptables = 1
+```bash
+# Create a file to load the required modules for CRI-O
+cat <<EOF | sudo tee /etc/modules-load.d/crio.conf
+     overlay
+     br_netfilter
    EOF
+```
 
-   sudo sysctl --system
-   ```
+```bash
+# Create a file to set up the network configurations for CRI-O
 
-   Master Node
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+     net.bridge.bridge-nf-call-iptables  = 1
+     net.ipv4.ip_forward                 = 1
+     net.bridge.bridge-nf-call-ip6tables = 1
+   EOF
+```
 
-   ```bash
-   sudo kubeadm config images pull
-   echo '{"exec-opts": ["native.cgroupdriver=systemd"]}' | sudo tee /etc/docker/daemon.json
-   sudo systemctl daemon-reload
-   sudo systemctl restart docker
-   sudo systemctl restart kubelet
+```bash
+# Load the required modules
+     sudo modprobe overlay
+     sudo modprobe br_netfilter
 
-   sudo kubeadm init --apiserver-advertise-address=172.31.1.24 --pod-network-cidr=172.31.0.0/20 # Use your master node’s private IP
-   ```
+# Apply the system-wide settings
+     sudo sysctl --system
+```
 
-   Debug commands
+Install crio linux OS (Doesnt work for ubuntu 24.04 as there is no release for it)
 
-   ```bash
-   sudo apt install net-tools
-   sudo netstat -lnp | grep 1025
-   sudo kubeadm reset
-   ```
+This script installs CRI-O (Container Runtime Interface for OCI) on a Linux system.
 
-   Master Node
+ It is designed to work with Kubernetes and is compatible with Ubuntu 22.04 and 20.04.
 
-   ```bash
-   mkdir -p $HOME/.kube
-   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-   sudo chown $(id -u):$(id -g) $HOME/.kube/config
-   ```
+```bash
+# Get the version ID of the operating system
+export VERSION_ID=$(cat /etc/os-release | grep VERSION_ID | awk -F"=" '{print $2}' | tr -d '"')
 
-   All Nodes
+# Set the OS version based on the version ID
+export OS_VERSION=xUbuntu_$VERSION_ID
 
-   ```bash
-   echo '{"exec-opts": ["native.cgroupdriver=systemd"]}' | sudo tee /etc/docker/daemon.json
-   sudo systemctl daemon-reload
-   sudo systemctl restart docker
-   sudo systemctl restart kubelet
+# Set the CRI-O version
+export CRIO_VERSION=1.25
 
-   kubeadm join 172.31.1.24:6443 --token 9auv25.spf0uv6fllmx7bon \
-   --discovery-token-ca-cert-hash sha256:202cdc980b7e241b06da20454500f5f8f53dd3320b5859ca2b054eac9ceb5232
-   ```
+# Add the CRI-O repository to the system's sources list
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS_VERSION/ /"|sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
 
-3. Deploy microservices to Kubernetes:
+# Add the CRI-O repository for specific version to the system's sources list
+echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$CRIO_VERSION/$OS_VERSION/ /"|sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$CRIO_VERSION.list
 
-   - Use Helm charts in the deploy folder to deploy the project to Kubernetes
+# Add the GPG key for the CRI-O repository
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS_VERSION/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
 
-4. Set up AWS services (optional, use S3 to deploy the website or host inside Kubernetes or Minio as object storage):
+# Add the GPG key for the CRI-O stable repository
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS_VERSION/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
 
-   - Create S3 buckets for static file storage and configure CloudFront for content delivery.
+sudo apt-get update
+sudo apt-get install cri-o cri-o-runc cri-tools -y
+```
+
+install kuberenetese
+
+ This script installs the Kubernetes command-line tool (kubectl), kubeadm, and kubelet on a Linux system.
+
+ It is compatible with Ubuntu 22.04 and 20.04.
+
+```bash
+# Add the Kubernetes apt repository to the system's sources list
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Update the package list
+sudo apt update
+
+sudo apt-get install -y kubectl kubeadm kubelet kubernetes-cni
+```
+
+RUN the following on Master Node
+{modify the 13.200.128.128 before copy paste}
+
+```bash
+
+   sudo kubeadm init --apiserver-advertise-address=13.200.128.128 --pod-network-cidr=10.244.0.0/16  # Use your master node’s private IP
+```
+
+output:
+kubeadm join 10.128.0.2:6443 --token bgmsz4.b8x5033gr8q5dx12 \
+ --discovery-token-ca-cert-hash sha256:382543ec70efe0dff65425c3077752d4a253c9b2c209c2fbc1241a0f1187b692
+
+```bash
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+verify pods
+
+```bash
+kubectl get pods -n kube-system
+```
+
+install calico on master node
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+```
+
+rerun verify pods to see calico
+
+RUN the following on Worker nodes
+
+```bash
+sudo systemctl daemon-reload
+        sudo systemctl enable crio --now
+```
+
+ON wroker nodes run the join command output from masternode
+
+after joining run on master
+
+```bash
+kubectl get nodes
+```
+
+test deployment
+
+```bash
+kubectl create deployment test-deployment --image nginx:latest --replicas 3
+        kubectl expose deployment test-deployment --port 80 --type NodePort
+```
+
+check which port is selected for our Nodeport service
+
+```bash
+kubectl get svc test-deployment
+```
+
+Debug commands
+
+```bash
+sudo apt install net-tools
+sudo netstat -lnp | grep 1025
+sudo kubeadm reset
+```

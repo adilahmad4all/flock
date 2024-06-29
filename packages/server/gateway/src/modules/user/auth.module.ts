@@ -14,7 +14,7 @@ import { AppModule } from "src/app/app.module";
 const ENV = process.env.NODE_ENV;
 @Module({
   imports: [
-    AppModule,
+   
     ClientsModule.register([
       {
         name: "AUTH-SERVICE",

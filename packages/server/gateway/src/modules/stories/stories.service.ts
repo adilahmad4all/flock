@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common";
 import { ClientKafka, RpcException } from "@nestjs/microservices";
 import { map } from "rxjs";
-import { UpdateStoriesInput,CreateStoriesInput } from "repositories";
+import { StoriesUpdateInput, StoriesCreateInput } from "repositories";
 
 
 const logger = new Logger();
@@ -27,10 +27,9 @@ export class StoriesService implements OnModuleInit {
     this.storiesClient.subscribeToResponseOf("create_comment");
     this.storiesClient.subscribeToResponseOf("get_comments_by_stories");
     this.storiesClient.subscribeToResponseOf("delete_comment");
-
   }
 
-  create(stories: CreateStoriesInput) {
+  create(stories: StoriesCreateInput) {
     logger.log("GATEWAY - Calling Stories Service");
 
     return this.storiesClient.send("create_stories", stories).pipe(
@@ -47,7 +46,7 @@ export class StoriesService implements OnModuleInit {
     );
   }
 
-  update(stories: UpdateStoriesInput) {
+  update(stories: StoriesUpdateInput) {
     logger.log("GATEWAY - Calling Stories Service");
 
     return this.storiesClient.send("update_stories", stories).pipe(
@@ -76,11 +75,11 @@ export class StoriesService implements OnModuleInit {
     );
   }
 
-  getByAuthor(author: string, currentUser: string) {
+  getByUsername(username: string, ) {
     logger.log("GATEWAY - Calling Stories Service");
 
     return this.storiesClient
-      .send("get_storiess_by_author", { author, currentUser })
+      .send("get_storiess_by_username", { username })
       .pipe(map((storiess) => storiess));
   }
 

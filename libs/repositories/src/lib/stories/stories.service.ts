@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { randomUUID } from "crypto";
 import { UserService } from "../user/user.service";
-import { FollowerService } from "../profile/services/follower.service";
+
 import { StoriesRepository } from "./repos/stories.repository";
 
 const logger = new Logger();
@@ -12,7 +12,7 @@ export class StoriesService {
 
     private readonly userService: UserService,
 
-    private readonly followerService: FollowerService
+   
   ) {}
 
   async createStory(story) {
@@ -52,7 +52,7 @@ export class StoriesService {
     return stories;
   }
 
-  async getByAuthor(owner, currentUser) {
+  async getByUsername(owner, currentUser) {
     logger.log("ARTICLE-SERVICE: Get articles by author triggered");
 
     const user = await this.userService.getUserByUsername(owner);

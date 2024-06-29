@@ -1,11 +1,12 @@
 import * as bcrypt from "bcrypt";
 import { ArgsType, Field, ObjectType } from "@nestjs/graphql";
+import * as Joi from "joi";
 import {
   JoiSchema,
   JoiSchemaOptions,
   getClassSchema,
 } from "joi-class-decorators";
-import * as Joi from "joi";
+
 
 @JoiSchemaOptions({
   allowUnknown: false,

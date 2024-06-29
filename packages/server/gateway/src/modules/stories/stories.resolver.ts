@@ -1,19 +1,16 @@
 import { UseGuards } from "@nestjs/common";
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { Args, Context, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { GraphQLAuthGuard } from "../../services/jwt/jwt-auth.guard";
 
 import {
   Comment,
-  Stories,
-  CreateStoriesInput,
-  CreateCommentInput,
-  DeleteCommentInput,
-  DeleteStoriesInput,
-  GetAllStoriessInput,
-  GetStoriesByIdInput,
-  GetOwnerStoriesInput,
-  GetCommentByStoriesInput,
-  UpdateStoriesInput,
+  StoriesCreateOutputResponse,
+  StoriesCreateInput,
+  StoriesUpdateInput,
+  StoriesArrayResponse,
+  StoriesByUsernameInput,
+  StoriesByIdInput,
+  StoriesSingleOutputResponse,
 } from "repositories";
 
 import { StoriesService } from "./stories.service";
@@ -22,61 +19,61 @@ import { StoriesService } from "./stories.service";
 export class StoriesResolver {
   constructor(private readonly storiesService: StoriesService) {}
 
-  @Mutation(() => Stories)
+  @Mutation(() => StoriesCreateOutputResponse)
   @UseGuards(GraphQLAuthGuard)
-  createStories(@Args("stories") stories: CreateStoriesInput) {
+  createStories(@Args("stories") stories: StoriesCreateInput) {
     return this.storiesService.create(stories);
   }
 
-  @Mutation(() => Stories)
+  @Mutation(() => StoriesCreateOutputResponse)
   @UseGuards(GraphQLAuthGuard)
-  updateStories(@Args("stories") stories: UpdateStoriesInput) {
+  updateStories(@Args("stories") stories: StoriesUpdateInput) {
     return this.storiesService.update(stories);
   }
 
-  @Query(() => [Stories])
+  @Query(() => StoriesArrayResponse)
   @UseGuards(GraphQLAuthGuard)
-  getAllStoriess(@Args("payload") payload: GetAllStoriessInput) {
-    return this.storiesService.getAll(payload.currentUser);
+  getAllStoriess(@Context() context: any) {
+    return this.storiesService.getByUsername(context.req.user.username);
   }
 
-  @Query(() => [Stories])
+  @Query(() => StoriesArrayResponse)
   @UseGuards(GraphQLAuthGuard)
-  getStoriessByAuthor(@Args("payload") payload: GetOwnerStoriesInput) {
-    return this.storiesService.getByAuthor(payload.author, payload.currentUser);
+  getStoriessByUsername(@Args("payload") payload: StoriesByUsernameInput) {
+    return this.storiesService.getByUsername(payload.username);
   }
 
-  @Query(() => Stories)
+  @Query(() => StoriesSingleOutputResponse)
   @UseGuards(GraphQLAuthGuard)
-  getStoriesByID(@Args("payload") payload: GetStoriesByIdInput) {
+  getStoriesByID(@Args("payload") payload: StoriesByIdInput) {
     return this.storiesService.getByID(payload);
   }
 
   @Mutation(() => String)
   @UseGuards(GraphQLAuthGuard)
-  deleteStories(@Args("payload") payload: DeleteStoriesInput) {
-    return this.storiesService.deleteStories(payload);
+  deleteStories(@Args("payload") payload: StoriesByIdInput) {
+    return this.storiesService.deleteStories(payload.id);
   }
 
   // Comment APIs
 
-  @Mutation(() => Comment)
-  @UseGuards(GraphQLAuthGuard)
-  createComment(@Args("comment") comment: CreateCommentInput) {
-    return this.storiesService.createComment(comment);
-  }
+  // @Mutation(() => Comment)
+  // @UseGuards(GraphQLAuthGuard)
+  // createComment(@Args("comment") comment: CreateCommentInput) {
+  //   return this.storiesService.createComment(comment);
+  // }
 
-  @Query(() => [Comment])
-  @UseGuards(GraphQLAuthGuard)
-  getCommentsByStories(@Args("payload") payload: GetCommentByStoriesInput) {
-    return this.storiesService.getCommentsByStories(payload);
-  }
+  // @Query(() => [Comment])
+  // @UseGuards(GraphQLAuthGuard)
+  // getCommentsByStories(@Args("payload") payload: GetCommentByStoriesInput) {
+  //   return this.storiesService.getCommentsByStories(payload);
+  // }
 
-  @Mutation(() => String)
-  @UseGuards(GraphQLAuthGuard)
-  deleteComment(@Args("payload") payload: DeleteCommentInput) {
-    return this.storiesService.deleteComment(payload);
-  }
+  // @Mutation(() => String)
+  // @UseGuards(GraphQLAuthGuard)
+  // deleteComment(@Args("payload") payload: DeleteCommentInput) {
+  //   return this.storiesService.deleteComment(payload);
+  // }
 
   // Tag APIs
 }
