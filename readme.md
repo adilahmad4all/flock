@@ -166,7 +166,7 @@ Install crio linux OS (Doesnt work for ubuntu 24.04 as there is no release for i
 
 This script installs CRI-O (Container Runtime Interface for OCI) on a Linux system.
 
- It is designed to work with Kubernetes and is compatible with Ubuntu 22.04 and 20.04.
+It is designed to work with Kubernetes and is compatible with Ubuntu 22.04 and 20.04.
 
 ```bash
 # Get the version ID of the operating system
@@ -192,17 +192,29 @@ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/
 
 sudo apt-get update
 sudo apt-get install cri-o cri-o-runc cri-tools -y
+
+```
+
+run CRI-O
+
+```bash
+
+ sudo systemctl daemon-reload
+     sudo systemctl restart crio
+     sudo systemctl enable crio
 ```
 
 install kuberenetese
 
- This script installs the Kubernetes command-line tool (kubectl), kubeadm, and kubelet on a Linux system.
+This script installs the Kubernetes command-line tool (kubectl), kubeadm, and kubelet on a Linux system.
 
- It is compatible with Ubuntu 22.04 and 20.04.
+It is compatible with Ubuntu 22.04 and 20.04.
 
 ```bash
 # Add the Kubernetes apt repository to the system's sources list
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+#create folder for storing key and download kubernetes key to verify the package
+sudo mkdir -p /etc/apt/keyrings
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 # Update the package list
