@@ -322,3 +322,7 @@ restart calico
 
 
 helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.5.1 --set startupapicheck.timeout=5m --set installCRDs=true
+
+echo "abjith was always here
+   abjith was not here
+" | grep always
