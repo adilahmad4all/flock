@@ -1,0 +1,12 @@
+apiVersion: metallb.universe.tf/v1beta1
+kind: Component
+metadata:
+  name: metallb-system
+spec:
+  provider: gcp
+  addressPool:
+    type: cloud
+    cloud:
+      project: flock-427818 # Replace with your project ID
+      region: us-central1     # Replace with your region
+      name: 34.29.198.58

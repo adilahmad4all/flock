@@ -290,3 +290,35 @@ sudo apt install net-tools
 sudo netstat -lnp | grep 1025
 sudo kubeadm reset
 ```
+
+
+
+helm repo add --force-update jetstack https://charts.jetstack.io
+helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager \
+  --set extraArgs='{--logging-format=json}' \
+  --set webhook.extraArgs='{--logging-format=json}' \
+  --set cainjector.extraArgs='{--logging-format=json}'
+
+<!-- certificatre manager  -->
+dubug
+helm uninstall cert-manager -n cert-manager
+kubectl delete roles cert-manager-startupapicheck:create-cert -n cert-manager;
+kubectl delete serviceaccount cert-manager-startupapicheck -n cert-manager;
+kubectl delete serviceaccount default -n cert-manager;
+kubectl delete jobs cert-manager-startupapicheck -n cert-manager;
+kubectl delete rolebindings cert-manager-startupapicheck:create-cert -n cert-manager;
+
+restart calico 
+5  kubectl get pods -n kube-system --show-labels
+  156  kubectl delete pods -n kube-system -l k8s-app=calico-node
+
+
+  kubectl get all -n cert-manager
+    kubectl logs -n cert-manager cert-manager-startupapicheck-l2rt9
+    kubectl logs -n cert-manager 
+  kubectl logs -n cert-manager cert-manager-startupapicheck-l2rt9  
+   kubectl describe pod cert-manager-startupapicheck-l2rt9 -n cert-manager
+
+
+
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.5.1 --set startupapicheck.timeout=5m --set installCRDs=true
