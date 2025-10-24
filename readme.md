@@ -52,7 +52,7 @@ git clone https://github.com/your-repository/flock.git
 
 ## Installation
 
-To set up the project locally, follow these steps:
+To set up the project locally:
 
 1. Install pnpm globally: the project uses pnpm workspaces
 
